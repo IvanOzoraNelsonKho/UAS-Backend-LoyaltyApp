@@ -12,7 +12,8 @@ class TierController extends Controller
      */
     public function index()
     {
-        //
+        $tiers = Tier::all();
+        return view('tiers.index', compact('tiers'));
     }
 
     /**
@@ -20,7 +21,7 @@ class TierController extends Controller
      */
     public function create()
     {
-        //
+        return view('tiers.create');
     }
 
     /**
@@ -28,7 +29,17 @@ class TierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'min_points' => 'required|integer|min:0',
+        ]);
+
+        Tier::create([
+            'name' => $request->name,
+            'min_points' => $request->min_points,
+        ]);
+
+        return redirect()->route('tiers.index');
     }
 
     /**
@@ -44,7 +55,7 @@ class TierController extends Controller
      */
     public function edit(Tier $tier)
     {
-        //
+        return view('tiers.edit', compact('tier'));
     }
 
     /**
@@ -52,7 +63,17 @@ class TierController extends Controller
      */
     public function update(Request $request, Tier $tier)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'min_points' => 'required|integer|min:0'
+        ]);
+
+        $tier->update([
+            'name' => $request->name,
+            'min_points' => $request->min_points
+        ]);
+
+        return redirect()->route('tiers.index');
     }
 
     /**
@@ -60,6 +81,7 @@ class TierController extends Controller
      */
     public function destroy(Tier $tier)
     {
-        //
+        $tier->delete();
+        return redirect()->route('tiers.index');
     }
 }
