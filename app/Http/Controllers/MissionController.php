@@ -12,7 +12,8 @@ class MissionController extends Controller
      */
     public function index()
     {
-        //
+        $missions = Mission::all();
+        return view('missions.index', compact('missions'));
     }
 
     /**
@@ -20,7 +21,7 @@ class MissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('missions.create');
     }
 
     /**
@@ -28,7 +29,21 @@ class MissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'reward_points' => 'required|integer|min:0',
+            'status' => 'required|boolean'
+        ]);
+
+        Mission::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'reward_points' => $request->reward_points,
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('missions.index');
     }
 
     /**
@@ -44,7 +59,7 @@ class MissionController extends Controller
      */
     public function edit(Mission $mission)
     {
-        //
+        return view('missions.edit', compact('mission'));
     }
 
     /**
@@ -52,7 +67,21 @@ class MissionController extends Controller
      */
     public function update(Request $request, Mission $mission)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'reward_points' => 'required|integer|min:0',
+            'status' => 'required|boolean'
+        ]);
+
+        $mission->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'reward_points' => $request->reward_points,
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('missions.index');
     }
 
     /**
@@ -60,6 +89,7 @@ class MissionController extends Controller
      */
     public function destroy(Mission $mission)
     {
-        //
+        $mission->delete();
+        return redirect()->route('missions.index');
     }
 }
