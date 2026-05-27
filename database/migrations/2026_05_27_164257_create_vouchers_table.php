@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique(); 
+            $table->integer('discount_value');
+            $table->boolean('is_used')->default(false);
             $table->timestamps();
         });
     }

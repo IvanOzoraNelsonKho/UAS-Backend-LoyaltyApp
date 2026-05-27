@@ -72,7 +72,6 @@ class MerchantController extends Controller
 
         return redirect()->route('merchants.index');
     }
-
     /**
      * Remove the specified resource from storage.
      */
