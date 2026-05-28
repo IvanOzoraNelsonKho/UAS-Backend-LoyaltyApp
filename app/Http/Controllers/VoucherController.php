@@ -21,7 +21,7 @@ class VoucherController extends Controller
      */
     public function create()
     {
-        //
+        return view('vouchers.create');
     }
 
     /**
@@ -29,7 +29,18 @@ class VoucherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'code' => 'required|unique:vouchers,code',
+            'discount_value' => 'required|integer',
+        ]);
+
+        Voucher::create([
+            'code' => $request->code,
+            'discount_value' => $request->discount_value,
+            'is_used' => false,
+        ]);
+
+        return redirect()->route('vouchers.index');
     }
 
     /**
@@ -43,24 +54,35 @@ class VoucherController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Voucher $voucher)
     {
-        //
+        return view('vouchers.edit', compact('voucher'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Voucher $voucher)
     {
-        //
+        $request->validate([
+            'code' => 'required|unique:vouchers,code,' . $voucher->id,
+            'discount_value' => 'required|integer',
+        ]);
+
+        $voucher->update([
+            'code' => $request->code,
+            'discount_value' => $request->discount_value,
+        ]);
+
+        return redirect()->route('vouchers.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Voucher $voucher)
     {
-        //
+        $voucher->delete();
+        return redirect()->route('vouchers.index');
     }
 }

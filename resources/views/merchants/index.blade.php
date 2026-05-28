@@ -1,4 +1,9 @@
-<h1>Daftar Merchant</h1>
+<html>
+<head>
+    <title>Daftar Merchant</title>
+</head>
+<body>
+    <h1>Daftar Merchant</h1>
 
 <a href="{{ route('merchants.create') }}">Tambah Merchant</a>
 <br><br>
@@ -40,3 +45,6 @@
 <br>
 <a href="#">Ke Halaman Penukaran (Redemptions)</a>
 {{-- {{ route('redemptions.index') }} --}}
+
+</body>
+</html>

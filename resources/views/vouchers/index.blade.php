@@ -1,4 +1,9 @@
-<h1>Daftar Voucher</h1>
+<html>
+<head>
+    <title>Daftar Voucher</title>
+</head>
+<body>
+    <h1>Daftar Voucher</h1>
 
 <a href="{{ route('vouchers.create') }}">Tambah Voucher</a>
 <br><br>
@@ -39,3 +44,5 @@
 
 <br>
 <a href="{{ route('merchants.index') }}">Ke Halaman Merchant</a>
+</body>
+</html>

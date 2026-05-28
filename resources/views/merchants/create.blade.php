@@ -1,4 +1,9 @@
-<h1>Tambah Merchant Baru</h1>
+<html>
+<head>
+    <title>Tambah Merchant Baru</title>
+</head>
+<body>
+    <h1>Tambah Merchant Baru</h1>
 
 <form action="{{ route('merchants.store') }}" method="POST">
     @csrf
@@ -18,3 +23,5 @@
 <br>
 <a href="{{ route('merchants.index') }}">Kembali ke Daftar</a>
 
+</body>
+</html>

@@ -1,4 +1,9 @@
-<h1>Edit Merchant</h1>
+<html>
+<head>
+    <title>Edit Merchant</title>
+</head>
+<body>
+    <h1>Edit Merchant</h1>
 
 <form action="{{ route('merchants.update', $merchant->id) }}" method="POST">
     @csrf
@@ -18,3 +23,5 @@
 
 <br>
 <a href="{{ route('merchants.index') }}">Kembali ke Daftar</a>
+</body>
+</html>
