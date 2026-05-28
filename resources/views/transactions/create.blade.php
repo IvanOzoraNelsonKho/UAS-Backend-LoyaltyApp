@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tambah Transaksi</title>
+    <title>Klaim Nota Baru</title>
 </head>
 <body>
-    <h1>Input Transaksi Baru</h1>
-    <!-- route nya buat balik ke page index atau daftar transaksi -->
-    <a href="{{ route('transactions.index') }}">← Kembali ke Daftar Transaksi</a>
-    <br><br>
+    <div>
+        <h2>Klaim Poin Baru</h2>
+        <p>Masukkan total nominal yang tertera pada struk belanja dessert kamu untuk ditukarkan menjadi poin reward.</p>
 
-    <!-- ini buat form input transaksi baru -->
-    <form action="{{ route('transactions.store') }}" method="POST">
-        @csrf
-        
-        <label><strong>Pilih Pelanggan:</strong></label><br>
-        <select name="user_id" required>
-            <option value=""> Pilih User </option>
-            @foreach($users as $user)
-                <option value="{{ $user->id }}">{{ $user->name }} (Sisa Poin: {{ $user->point_balance ?? 0 }})</option>
-            @endforeach
-        </select>
-        <br><br>
+        <form action="{{ route('transactions.store') }}" method="POST">
+            @csrf
 
-        <label><strong>Total Belanja (Rupiah):</strong></label><br>
-        <input type="number" name="total_amount" placeholder="Contoh: 50000" min="0" required>
-        <br><br>
+            <div style="margin-bottom: 20px;">
+                <label>Nomor Nota / Invoice: </label>
+                <input type="text" name="invoice_number" placeholder="Contoh: INV-20260528-001" required>
 
-        <button type="submit">Simpan Transaksi</button>
-    </form>
+                <!-- Nampilin pesan error jika nomor nota duplikat -->
+                @error('invoice_number')
+                    <small style="color: red; display: block; margin-top: 5px;">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 8px;">Total Belanja (Rupiah):</label>
+                <input type="number" name="total_amount" placeholder="Contoh: 50000" min="0" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" required>
+                <small style="color: #6c757d; display: block; margin-top: 5px;">*Setiap kelipatan Rp 10.000 otomatis jadi 10 Poin reward.</small>
+            </div>
+
+            <button type="submit" style="width: 100%; background: #28a745; color: white; border: none; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 15px;">Verifikasi & Klaim Poin</button>
+        </form>
+
+        <br>
+        <div style="text-align: center;">
+            <a href="{{ route('transactions.index') }}" style="color: #007bff; text-decoration: none; font-size: 14px;">← Kembali ke Riwayat Saya</a>
+        </div>
+    </div>
 </body>
 </html>
