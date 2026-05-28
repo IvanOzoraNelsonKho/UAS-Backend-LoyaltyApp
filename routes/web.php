@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\TierController;
+use App\Http\Controllers\MissionController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\RedemptionController;
@@ -11,14 +14,15 @@ Route::resource('redemptions', RedemptionController::class);
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\TransactionController;
-
+Route::resource('users', UserController::class);
+Route::resource('tiers', TierController::class);
+Route::resource('missions', MissionController::class);
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
 Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
