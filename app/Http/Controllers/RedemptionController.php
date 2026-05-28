@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Redemption;
 
 class RedemptionController extends Controller
 {
@@ -11,7 +12,7 @@ class RedemptionController extends Controller
      */
     public function index()
     {
-        $redemptions = \App\Models\Redemption::all();
+        $redemptions = Redemption::all();
         return view('redemptions.index', compact('redemptions'));
     }
 
@@ -20,7 +21,7 @@ class RedemptionController extends Controller
      */
     public function create()
     {
-        //
+        return view('redemptions.create');
     }
 
     /**
@@ -28,7 +29,18 @@ class RedemptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|integer',
+            'reward_id' => 'required|integer',
+            'merchant_id' => 'required|integer',
+        ]);
+        Redemption::create([
+            'user_id' => $request->user_id,
+            'reward_id' => $request->reward_id,
+            'merchant_id' => $request->merchant_id,
+            'status' => 'pending',
+        ]);
+        return redirect()->route('redemptions.index');
     }
 
     /**
@@ -44,7 +56,8 @@ class RedemptionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $redemption = Redemption::findOrFail($id);
+        return view('redemptions.edit', compact('redemption'));
     }
 
     /**
@@ -52,7 +65,20 @@ class RedemptionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|integer',
+            'reward_id' => 'required|integer',
+            'merchant_id' => 'required|integer',
+            'status' => 'required|in:pending,success',
+        ]);
+        $redemption = Redemption::findOrFail($id);
+        $redemption->update([
+            'user_id' => $request->user_id,
+            'reward_id' => $request->reward_id,
+            'merchant_id' => $request->merchant_id,
+            'status' => $request->status,
+        ]);
+        return redirect()->route('redemptions.index');
     }
 
     /**
@@ -60,6 +86,7 @@ class RedemptionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $redemption->delete();
+        return redirect()->route('redemptions.index');
     }
 }

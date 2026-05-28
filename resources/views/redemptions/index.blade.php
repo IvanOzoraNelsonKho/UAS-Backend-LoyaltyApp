@@ -5,6 +5,11 @@
 <body>
     <h1>Daftar Redemption</h1>
 
+    <a href="{{ route('merchants.index') }}">Tabel Merchant</a> | 
+    <a href="{{ route('vouchers.index') }}">Tabel Voucher</a> | 
+    <a href="{{ route('redemptions.index') }}">Tabel Redemption</a>
+    <br><br>
+
 <a href="{{ route('redemptions.create') }}">Tambah Data Penukaran</a>
 <br><br>
 
@@ -44,7 +49,5 @@
 </table>
 @endif
 
-<br>
-<a href="{{ route('vouchers.index') }}">Ke Halaman Voucher</a>
 </body>
 </html>
