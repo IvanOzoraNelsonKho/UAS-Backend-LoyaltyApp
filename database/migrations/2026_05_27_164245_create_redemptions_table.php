@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('redemptions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('reward_id');
+            $table->unsignedBigInteger('merchant_id');
+            $table->enum('status', ['pending', 'success'])->default('pending');
             $table->timestamps();
         });
     }
