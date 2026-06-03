@@ -26,6 +26,10 @@ Route::resource('missions', MissionController::class);
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
 Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+
+use App\Http\Controllers\PointHistoryController;
+
+Route::get('/point-histories', [PointHistoryController::class, 'index'])->name('point_histories.index');
 Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
 Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
 Route::post('/promotions', [PromotionController::class, 'store'])->name('promotions.store');
