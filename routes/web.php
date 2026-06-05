@@ -13,6 +13,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// semacam hrs login dlu baru bisa kesini
 Route::middleware(['auth'])->group(function (){
     Route::get('/referral/claim', function () {
             return view('referrals.claim');
@@ -38,8 +39,3 @@ Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
 Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
-
-// Route::get('/referral/claim', function () {
-//             return view('referrals.claim');
-//         })->name('referral.claim.form');    
-// Route::post('/referral/claim', [ReferralController::class, 'processReferral'])->name('referral.claim');
