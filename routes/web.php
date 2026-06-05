@@ -15,6 +15,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
+use App\Http\COntrollers\ReferralController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,3 +41,9 @@ Route::get('/notifications', [NotificationController::class, 'index'])->name('no
 Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
 Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
 
+Route::middleware(['auth'])->group(function (){
+    Route::get('/referral/claim', function () {
+            return view('referrals.claim');
+        })->name('referral.claim.form');    
+    Route::post('/referral/claim', [ReferralController::class, 'processReferral'])->name('referral.claim');
+});
