@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Redemption;
+use App\Models\User;    
+use App\Models\Reward;
 
 class RedemptionController extends Controller
 {
@@ -34,13 +36,24 @@ class RedemptionController extends Controller
             'reward_id' => 'required|integer',
             'merchant_id' => 'required|integer',
         ]);
-        Redemption::create([
-            'user_id' => $request->user_id,
-            'reward_id' => $request->reward_id,
-            'merchant_id' => $request->merchant_id,
-            'status' => 'pending',
-        ]);
-        return redirect()->route('redemptions.index');
+
+        $user = User::findOrFail($request->user_id);
+        $reward = Reward::findOrFail($request->reward_id);
+        if ($user->point_balance >= $reward->points_required) {
+            $user->point_balance = $user->point_balance - $reward->points_required;
+            $user->save();
+
+            Redemption::create([
+                'user_id' => $request->user_id,
+                'reward_id' => $request->reward_id,
+                'merchant_id' => $request->merchant_id,
+                'status' => 'pending',
+            ]);
+            return redirect()->route('redemptions.index')->with('success', 'Reward berhasil ditukar! Poin telah dipotong.');
+        } 
+        else {
+            return redirect()->back()->with('error', 'Maaf, poin Anda tidak mencukupi untuk menukar reward.');
+        }
     }
 
     /**
@@ -86,6 +99,7 @@ class RedemptionController extends Controller
      */
     public function destroy(string $id)
     {
+        $redemption = Redemption::findOrFail($id);
         $redemption->delete();
         return redirect()->route('redemptions.index');
     }
