@@ -15,7 +15,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
-use App\Http\COntrollers\ReferralController;
+use App\Http\Controllers\ReferralController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,4 +46,9 @@ Route::middleware(['auth'])->group(function (){
             return view('referrals.claim');
         })->name('referral.claim.form');    
     Route::post('/referral/claim', [ReferralController::class, 'processReferral'])->name('referral.claim');
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/orders', [TransactionController::class, 'adminIndex'])->name('orders.index');
+    Route::patch('/orders/{id}/status', [TransactionController::class, 'updateStatus'])->name('orders.update_status');
 });
