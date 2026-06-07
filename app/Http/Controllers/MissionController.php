@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mission;
+use App\Models\User;
+use App\Models\PointHistory;
 use Illuminate\Http\Request;
 
 class MissionController extends Controller
@@ -43,7 +45,7 @@ class MissionController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('missions.index');
+        return redirect()->route('missions.index')->with('success', 'Misi baru berhasil ditambahkan!');
     }
 
     /**
@@ -81,7 +83,7 @@ class MissionController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('missions.index');
+        return redirect()->route('missions.index')->with('success', 'Misi berhasil diperbarui!');
     }
 
     /**
@@ -90,6 +92,35 @@ class MissionController extends Controller
     public function destroy(Mission $mission)
     {
         $mission->delete();
-        return redirect()->route('missions.index');
+        return redirect()->route('missions.index')->with('success', 'Misi berhasil dihapus!');
+    }
+
+    /**
+     * Process mission reward claim for the customer.
+     */
+    public function claim($id)
+    {
+        $mission = Mission::findOrFail($id);
+        
+        // Menggunakan user yang sedang login, jika tidak ada (untuk keperluan tes), ambil user pertama di DB
+        $user = auth()->user() ?? User::first(); 
+
+        if (!$user) {
+            return redirect()->route('missions.index')->with('error', 'User tidak ditemukan. Pastikan sudah menjalankan seeder.');
+        }
+
+        // 1. Tambahkan saldo poin user
+        $user->point_balance += $mission->reward_points;
+        $user->save();
+
+        // 2. Catat mutasi masuk ke riwayat poin (Tabel point_histories)
+        PointHistory::create([
+            'user_id' => $user->id,
+            'type' => 'in',
+            'amount' => $mission->reward_points,
+            'description' => 'Klaim Hadiah Misi: ' . $mission->title
+        ]);
+
+        return redirect()->route('missions.index')->with('success', 'Poin berhasil diklaim! Saldo poin Anda bertambah sebesar ' . $mission->reward_points . ' Pts.');
     }
 }

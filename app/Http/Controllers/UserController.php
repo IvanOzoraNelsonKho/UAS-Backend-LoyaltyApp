@@ -13,7 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        // Mengambil semua user beserta relasi tier-nya agar bisa memunculkan nama tier-nya
+        $users = User::with('tier')->get();
         return view('users.index', compact('users'));
     }
 
@@ -34,6 +35,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
             'point_balance' => 'required|integer|min:0',
             'tier_id' => 'required|exists:tiers,id',
         ]);
@@ -41,7 +43,7 @@ class UserController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt('password'),
+            'password' => bcrypt($request->password),
             'point_balance' => $request->point_balance,
             'tier_id' => $request->tier_id,
         ]);
@@ -54,7 +56,15 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $loggedInUser = auth()->user();
+
+    //  Proteksi Customer: Jika BUKAN admin, dan ID yang dibuka BUKAN ID-nya sendiri, langsung blokir!
+    if (!$loggedInUser->is_admin && $loggedInUser->id != $id) {
+        return redirect()->route('users.show', $loggedInUser->id)->with('error', 'Anda tidak diizinkan melihat kartu member milik orang lain!');
+    }
+
+    $user = User::with('tier')->findOrFail($id);
+    return view('users.show', compact('user'));
     }
 
     /**
@@ -62,8 +72,10 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        // Cari data user berdasarkan ID terlebih dahulu agar tidak error
+        $user = User::findOrFail($id);
         $tiers = Tier::all();
-        return view('users.edit', compact('user, tier'));
+        return view('users.edit', compact('user', 'tiers'));
     }
 
     /**
@@ -71,9 +83,13 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Cari data user berdasarkan ID terlebih dahulu
+        $user = User::findOrFail($id);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6',
             'point_balance' => 'required|integer|min:0',
             'tier_id' => 'required|exists:tiers,id',
         ]);
@@ -85,7 +101,13 @@ class UserController extends Controller
             'tier_id' => $request->tier_id,
         ]);
 
-        return redirect()->route('users.index');
+        if ($request->filled('password')) {
+            $updateData['password'] = bcrypt($request->password);
+        }
+
+        $user->update($updateData);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui!');
     }
 
     /**
@@ -93,7 +115,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user->delete();
-        return redirect()->route('users.index');
+        // Mengambil data user ke-1 beserta relasi tier membership-nya
+        $user = User::with('tier')->findOrFail($id);
+    
+        // Mengembalikan ke file view show.blade.php
+        return view('users.show', compact('user'));
     }
 }
