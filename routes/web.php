@@ -66,16 +66,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     // 📦 Paket 5: Engagement & Promo
-    Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
-    Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
-    Route::post('/promotions', [PromotionController::class, 'store'])->name('promotions.store');
-
-    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-    Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
-    Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
+    Route::resource('promotions', PromotionController::class);
+    Route::resource('reviews', ReviewController::class);
+    Route::resource('notifications', NotificationController::class);
 
 });
