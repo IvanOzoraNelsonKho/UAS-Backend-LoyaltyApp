@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Tier</title>
+    <title>Kelola Tiers</title>
 </head>
 <body>
-    <h1>Daftar Tier</h1>
+    <h1>Dashboard Admin: Kelola Tiers</h1>
+    @if(session('success'))
+        <p style="color: green;"><b>{{ session('success') }}</b></p>
+    @endif
+
     <a href="{{ route('tiers.create') }}"><button>Tambah Tier Baru</button></a>
     <br><br>
 
@@ -36,5 +40,13 @@
             @endforeach
         </tbody>
     </table>
+    <br>
+    <a href="{{ route('users.index') }}"><button>Ke Dashboard User</button></a> |
+    <a href="{{ route('missions.index') }}"><button>Ke Dashboard Misi</button></a> |
+    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit" style="color: red;">🚪 Keluar (Logout)</button>
+    </form>
+    <br>
 </body>
 </html>

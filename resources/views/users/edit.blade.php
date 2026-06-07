@@ -7,6 +7,13 @@
 </head>
 <body>
     <h1>Edit Data User</h1>
+    @if($errors->any())
+        <ul style="color: red;">
+            @foreach($errors->all() as $error)
+                <li><b>{{ $error }}</b></li>
+            @endforeach
+        </ul>
+    @endif
     <form action="{{ route('users.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -18,6 +25,12 @@
         <div>
             <label>Email:</label>
             <input type="email" name="email" value="{{ $user->email }}" required>
+        </div>
+        <br>
+        <div>
+            <label>Password Baru:</label>
+            <input type="password" name="password" placeholder="Kosongkan jika tidak ingin mengubah password">
+            <br><small style="color: gray;">*Minimal 6 karakter jika ingin diubah</small>
         </div>
         <br>
         <div>
