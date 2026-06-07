@@ -47,3 +47,5 @@ Route::middleware(['auth'])->group(function (){
         })->name('referral.claim.form');    
     Route::post('/referral/claim', [ReferralController::class, 'processReferral'])->name('referral.claim');
 });
+
+Route::get('/outlets', [App\Http\Controllers\MerchantController::class, 'outletsUser']);

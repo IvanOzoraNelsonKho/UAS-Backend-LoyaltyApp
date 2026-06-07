@@ -82,4 +82,11 @@ class MerchantController extends Controller
 
         return redirect()->route('merchants.index');
     }
+
+    public function outletsUser()
+    {
+        $merchants = \App\Models\Merchant::all();
+
+        return view('merchants.outlets', compact('merchants'));
+    }
 }
