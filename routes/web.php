@@ -12,6 +12,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\PointHistoryController;
 use App\Http\Controllers\ReferralController; // Perbaikan typo kapital (COntrollers -> Controllers)
 use App\Http\Controllers\AuthController;       // Import AuthController baru
 
