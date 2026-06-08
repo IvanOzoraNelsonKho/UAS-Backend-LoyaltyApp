@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('missions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable();
+            $table->text('description');
             $table->integer('reward_points');
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->default(true); // true = aktif, false = nonaktif
             $table->timestamps();
-        });
+});
     }
 
     /**
