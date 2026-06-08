@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Wishlist;
 
 class WishlistController extends Controller
 {
@@ -11,7 +12,9 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        //
+        $wishlists = Wishlist::where('user_id', auth()->id())->get();
+
+        return view('wishlists.index', compact('wishlists'));
     }
 
     /**
@@ -27,7 +30,23 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'reward_id' => 'required|integer',
+        ]);
+
+        $sudahAda = Wishlist::where('user_id', auth()->id())
+                            ->where('reward_id', $request->reward_id)
+                            ->first();
+        
+        if (!$sudahAda) {
+            Wishlist::create([
+                'user_id' => auth()->id(),
+                'reward_id' => $request->reward_id,
+            ]);
+
+        }
+
+        return back(->with('success', 'Berhasil ditambahkan ke Wishlist!'));
     }
 
     /**
@@ -62,3 +81,4 @@ class WishlistController extends Controller
         //
     }
 }
+
