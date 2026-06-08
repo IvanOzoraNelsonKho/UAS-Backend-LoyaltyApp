@@ -26,7 +26,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// 🔑 Rute Autentikasi (Bisa diakses publik / Guest)
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -34,10 +33,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// 🔒 Grup Rute Aplikasi (Wajib Login Terlebih Dahulu)
 Route::middleware(['auth'])->group(function () {
 
-    // 📦 Paket 1: Core User & Gamification
     Route::resource('users', UserController::class);
     Route::resource('tiers', TierController::class);
     
@@ -46,20 +43,17 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('missions', MissionController::class);
 
 
-    // 📦 Paket 3: Transaksi & Saldo Poin
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/point-histories', [PointHistoryController::class, 'index'])->name('point_histories.index');
     
-    // Fitur Referral
     Route::get('/referral/claim', function () {
         return view('referrals.claim');
     })->name('referral.claim.form');    
     Route::post('/referral/claim', [ReferralController::class, 'processReferral'])->name('referral.claim');
 
 
-    // 📦 Paket 4: Penukaran & Operasional
     Route::resource('merchants', MerchantController::class);
     Route::resource('vouchers', VoucherController::class);
     Route::resource('redemptions', RedemptionController::class);

@@ -1,39 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Klaim Nota Baru</title>
+    <title>Pesan Online - Chatime Loyalty App</title>
 </head>
 <body>
-    <div>
-        <h2>Klaim Poin Baru</h2>
-        <p>Masukkan total nominal yang tertera pada struk belanja dessert kamu untuk ditukarkan menjadi poin reward.</p>
+    <h1>Buat Pesanan Baru / Checkout</h1>
+    <a href="{{ route('transactions.index') }}">⬅️ Kembali ke Riwayat</a>
+    <hr>
 
-        <form action="{{ route('transactions.store') }}" method="POST">
-            @csrf
+    <form action="{{ route('transactions.store') }}" method="POST">
+        @csrf
 
-            <div style="margin-bottom: 20px;">
-                <label>Nomor Nota / Invoice: </label>
-                <input type="text" name="invoice_number" placeholder="Contoh: INV-20260528-001" required>
+        <h3>1. Pilih Akun Pelanggan</h3>
+        <select name="user_id" required>
+            <option value=""> Pilih User </option>
+            @foreach($users as $user)
+                <option value="{{ $user->id }}">{{ $user->name }} (Poin Saat Ini: {{ $user->point_balance }})</option>
+            @endforeach
+        </select>
 
-                <!-- Nampilin pesan error jika nomor nota duplikat -->
-                @error('invoice_number')
-                    <small style="color: red; display: block; margin-top: 5px;">{{ $message }}</small>
-                @enderror
-            </div>
+        <h3>2. Pilih Cabang Outlet</h3>
+        <select name="merchant_id" required>
+            <option value=""> Pilih Cabang </option>
+            @foreach($merchants as $merchant)
+                <option value="{{ $merchant->id }}">{{ $merchant->name }} - {{ $merchant->location }}</option>
+            @endforeach
+        </select>
 
-            <div style="margin-bottom: 20px;">
-                <label style="font-weight: bold; display: block; margin-bottom: 8px;">Total Belanja (Rupiah):</label>
-                <input type="number" name="total_amount" placeholder="Contoh: 50000" min="0" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" required>
-                <small style="color: #6c757d; display: block; margin-top: 5px;">*Setiap kelipatan Rp 10.000 otomatis jadi 10 Poin reward.</small>
-            </div>
+        <h3>3. Metode Pembayaran</h3>
+        <input type="radio" name="payment_method" value="cash" checked> Tunai (Cash) <br>
+        <input type="radio" name="payment_method" value="e-wallet"> Saldo E-Wallet / Digital Wallet
 
-            <button type="submit" style="width: 100%; background: #28a745; color: white; border: none; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 15px;">Verifikasi & Klaim Poin</button>
-        </form>
-
-        <br>
-        <div style="text-align: center;">
-            <a href="{{ route('transactions.index') }}" style="color: #007bff; text-decoration: none; font-size: 14px;">← Kembali ke Riwayat Saya</a>
+        <h3>4. Pilih Menu (Item Pesanan)</h3>
+        <div>
+            <label>Pilih Item 1:</label>
+            <select name="items[0][reward_id]" required>
+                <option value=""> Pilih Menu </option>
+                @foreach($rewards as $reward)
+                    <option value="{{ $reward->id }}">{{ $reward->name }} - Rp {{ number_format($tx->total_amount, 0, ',', '.') }} (Stok: {{ $reward->stock }})</option>
+                @endforeach
+            </select>
+            <input type="number" name="items[0][quantity]" value="1" min="1" placeholder="Qty" required style="width: 50px;">
         </div>
-    </div>
+        <br>
+        <div>
+            <label>Pilih Item 2 (Opsional):</label>
+            <select name="items[1][reward_id]">
+                <option value="">-- Pilih Menu --</option>
+                @foreach($rewards as $reward)
+                    <option value="{{ $reward->id }}">{{ $reward->name }} - Rp {{ number_format($tx->total_amount, 0, ',', '.') }}</option>
+                @endforeach
+            </select>
+            <input type="number" name="items[1][quantity]" value="1" min="1" placeholder="Qty" style="width: 50px;">
+        </div>
+
+        <br><hr>
+        <button type="submit" style="padding: 10px 20px; background-color: green; color: white;">KIRIM PESANAN & CHECKOUT</button>
+    </form>
 </body>
 </html>

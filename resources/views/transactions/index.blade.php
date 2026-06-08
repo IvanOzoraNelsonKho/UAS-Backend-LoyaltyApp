@@ -1,48 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Daftar Transaksi</title>
+    <title>Riwayat Pesanan Saya</title>
 </head>
 <body>
-    <h1>Riwayat Transaksi & Poin Saya</h1>
-    <p>Pantau terus transaksi kamu dan kumpulkan point reaward sebanyak-banyaknya !</p>
-    <!-- jadi route ini buat nambah transaksi baru, terus nanti kalau di klik bakal ke halaman create.blade.php -->
-    <a href="{{ route('transactions.create') }}"><strong>Klaim Nota Baru</strong></a>
+    <h1>Riwayat Pemesanan Online Anda</h1>
+    <a href="{{ route('transactions.create') }}">➕ Pesan Menu Online Lagi</a> | 
+    <a href="{{ route('point_histories.index') }}">💎 Lihat Histori Tabungan Poin</a>
+    <hr>
 
-    <!-- ini buat tampilin kata sukses kalau transaksinya berhasil ditambahkan -->
     @if(session('success'))
-        <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 15px; border: 1px solid #c3e6cb;">
-                {{ session('success') }}
-        </div>
+        <p style="color: green; font-weight: bold;">{{ session('success') }}</p>
     @endif
 
-    <table border="1" cellpadding="8" cellspacing="0">
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left;">
         <thead>
-            <tr>
-                <th>ID Nota</th>
-                <th>Tanggal Belanja</th>
-                <th>Total Transaksi</th>
-                <th>Poin yang Didapat</th>
+            <tr style="background-color: #f2f2f2;">
+                <th>ID Order</th>
+                <th>Cabang Toko</th>
+                <th>Daftar Menu Yang Dibeli</th>
+                <th>Total Bayar</th>
+                <th>Bonus Poin Diperoleh</th>
+                <th>Metode</th>
+                <th>Status Pembuatan Menu</th>
+                <th>Tanggal</th>
             </tr>
         </thead>
-
-        <!-- ini buat nampilin data transaksi -->
         <tbody>
-            @if($transactions->isEmpty())
-                <tr>
-                    <td colspan="5" align="center">Belum ada data transaksi.</td>
-                </tr>
-            @else
-            <!-- Cari bagian kode ini di index.blade.php kamu dan sesuaikan kolomnya -->
-            @foreach($transactions as $t)
-            <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 12px; color: #007bff; font-weight: bold;">{{ $t->invoice_number }}</td> <!-- Menampilkan Nomor Nota asli -->
-                <td style="padding: 12px;">{{ $t->transaction_date }}</td>
-                <td style="padding: 12px; font-weight: bold;">Rp {{ number_format($t->total_amount, 0, ',', '.') }}</td>
-                <td style="padding: 12px; color: #28a745; font-weight: bold;">+{{ $t->points_earned }} Pts</td>
+            @foreach($transactions as $tx)
+            <tr>
+                <td>#ORD-{{ $tx->id }}</td>
+                <td>{{ $tx->merchant->name }}</td>
+                <td>
+                    <ul>
+                        @foreach($tx->details as $detail)
+                            <li>{{ $detail->reward->name }} ({{ $detail->quantity }}x) @ Rp{{ number_format($tx->total_amount, 0, ',', '.') }}</li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>Rp {{ number_with_delimiter($tx->total_amount) }}</td>
+                <td><strong style="color: blue;">+{{ $tx->points_earned }} Poin</strong></td>
+                <td>{{ strtoupper($tx->payment_method) }}</td>
+                <td>
+                    @if($tx->status == 'pending')
+                        <span style="background-color: yellow; padding: 2px 5px;">⏳ Menunggu Konfirmasi Toko</span>
+                    @elseif($tx->status == 'processing')
+                        <span style="background-color: orange; padding: 2px 5px; color: white;">☕ Minuman Sedang Dibuat</span>
+                    @elseif($tx->status == 'completed')
+                        <span style="background-color: green; padding: 2px 5px; color: white;">✅ Selesai (Sudah Diambil)</span>
+                    @else
+                        <span style="background-color: red; padding: 2px 5px; color: white;">❌ Dibatalkan</span>
+                    @endif
+                </td>
+                <td>{{ $tx->transaction_date }}</td>
             </tr>
             @endforeach
-            @endif
         </tbody>
     </table>
 </body>
