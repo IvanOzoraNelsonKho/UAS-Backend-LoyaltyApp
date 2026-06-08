@@ -46,7 +46,7 @@ class WishlistController extends Controller
 
         }
 
-        return back(->with('success', 'Berhasil ditambahkan ke Wishlist!'));
+        return back()->with('success', 'Berhasil ditambahkan ke Wishlist!');
     }
 
     /**
