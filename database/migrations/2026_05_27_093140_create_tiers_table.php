@@ -29,9 +29,9 @@ return new class extends Migration
     public function down(): void
     {
         // Putuskan hubungan foreign key terlebih dahulu sebelum menghapus tabel
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['tier_id']);
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->dropForeign(['tier_id']);
+        // });
 
         Schema::dropIfExists('tiers');
     }
