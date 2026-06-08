@@ -78,7 +78,10 @@ class WishlistController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $wishlist = Wishlist::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+
+        $wishlist->delete();
+
+        return back()->with('success', 'Barang berhasil dihapus dari Wishlist!');
     }
 }
-

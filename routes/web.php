@@ -14,6 +14,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReferralController; // Perbaikan typo kapital (COntrollers -> Controllers)
 use App\Http\Controllers\AuthController;       // Import AuthController baru
+use App\Http\Controllers\WishlistController;
 
 // Halaman Utama: Jika sudah login arahkan berdasarkan Role, jika belum lempar ke Login
 Route::get('/', function () {
@@ -59,9 +60,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('redemptions', RedemptionController::class);
 
 
-    // 📦 Paket 5: Engagement & Promo
     Route::resource('promotions', PromotionController::class);
     Route::resource('reviews', ReviewController::class);
     Route::resource('notifications', NotificationController::class);
+    Route::resource('wishlists', WishlistController::class)->only(['index', 'store', 'destroy']);
 
 });
