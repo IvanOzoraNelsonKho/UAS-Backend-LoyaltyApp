@@ -103,4 +103,12 @@ class RedemptionController extends Controller
         $redemption->delete();
         return redirect()->route('redemptions.index');
     }
+
+    public function redeemUser()
+    {
+        $users = \App\Models\User::all();
+        $rewards = \App\Models\Reward::all();
+        $merchants = \App\Models\Merchant::all();
+        return view('redemptions.redeem', compact('users', 'rewards', 'merchants'));
+    }
 }
