@@ -71,10 +71,10 @@ class WishlistController extends Controller
      */
     public function destroy(string $id)
     {
-        $wishlist = Wishlist::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+       $wishlist = \App\Models\Wishlist::where('id', $id)->where('user_id', auth()->id() ?? 1)->firstorfail();
 
-        $wishlist->delete();
+       $wishlist->delete();
 
-        return back()->with('success', 'Barang berhasil dihapus dari Wishlist!');
+       return redirect('/wishlists')->with('success', 'Promo berhasil dihapus dari wishlist!');
     }
 }
