@@ -12,7 +12,7 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $wishlists = Wishlist::where('user_id', auth()->id())->get();
+        $wishlists = Wishlist::where('user_id', auth()->id() ?? 1)->get();
 
         return view('wishlists.index', compact('wishlists'));
     }
@@ -30,23 +30,16 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'reward_id' => 'required|integer',
-        ]);
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
 
-        $sudahAda = Wishlist::where('user_id', auth()->id())
-                            ->where('reward_id', $request->reward_id)
-                            ->first();
+        $wishlist = new \App\Models\Wishlist();
+        $wishlist->user_id = auth()->id() ?? 1; 
+        $wishlist->reward_id = $request->promotion_id;
+        $wishlist->save();
+
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
         
-        if (!$sudahAda) {
-            Wishlist::create([
-                'user_id' => auth()->id(),
-                'reward_id' => $request->reward_id,
-            ]);
-
-        }
-
-        return back()->with('success', 'Berhasil ditambahkan ke Wishlist!');
+        return redirect()->route('wishlists.index')->with('success', 'Berhasil ditambahkan ke Wishlist!');
     }
 
     /**

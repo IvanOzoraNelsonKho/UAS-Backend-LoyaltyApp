@@ -29,7 +29,7 @@
                 <td>{{ $promo->multiplier }}</td>
                 <td>{{ $promo->end_date }}</td>
                 <td>
-                    <form action="{{ route('wishlists.store'}}" method="POST" style="display:inline-block;">
+                    <form action="{{ route('wishlists.store') }}" method="POST" style="display:inline-block;">
                         @csrf
                         <input type="hidden" name="promotion_id" value="{{ $promo->id }}">
                         <button type="submit">
