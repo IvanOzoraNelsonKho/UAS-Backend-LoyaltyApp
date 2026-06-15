@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Buku Tabungan Poin Saya</title>
+    <title>Riwayat Poin - Chatime Loyalty App</title>
 </head>
 <body>
-    <div>
-        <h2>🪙 Poin Reward Saya</h2>
-        <p style="color: gray;">Berikut adalah riwayat mutasi masuk dan keluar dari poin loyalty yang kamu kumpulkan.</p>
-        
-        <div style="margin-bottom: 20px;">
-            <a href="{{ route('transactions.index') }}" style="color: #007bff; text-decoration: none; font-size: 14px;">← Kembali ke Riwayat Belanja</a>
-        </div>
+    <h1>Riwayat Aktivitas Poin Loyalty</h1>
+    <a href="{{ route('transactions.index') }}">⬅️ Kembali ke Dashboard</a>
+    <hr>
 
-        <table border="1" cellpadding="8" cellspacing="0">
-            <thead>
+    {{-- Ringkasan Total Saldo Poin Akun Terkini --}}
+    <h2>Total Poin Anda Saat Ini: <span style="color: blue;">{{ number_format(auth()->user()->point_balance) }} Poin</span></h2>
+    
+    <hr>
+    <h3>Daftar Mutasi Poin</h3>
+
+    <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>Tanggal & Waktu</th>
+                <th>Keterangan Aktivitas</th>
+                <th>Jumlah Poin</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($pointHistories as $history)
                 <tr>
-                    <th>Tanggal</th>
-                    <th>Keterangan</th>
-                    <th>Jumlah Poin</th>
+                    <td>{{ $history->created_at->format('d M Y, H:i') }} WIB</td>
+                    <td>{{ $history->description }}</td>
+                    <td style="font-weight: bold; color: {{ $history->type === 'in' ? 'green' : 'red' }};">
+                        {{ $history->type === 'in' ? '+' : '-' }}{{ number_format($history->amount) }} Poin
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @if($histories->isEmpty())
-                    <tr>
-                        <td colspan="3" style="padding: 20px; text-align: center; color: gray;">Belum ada riwayat mutasi poin.</td>
-                    </tr>
-                @else
-                    @foreach($histories as $h)
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <td>{{ $h->created_at->format('d M Y') }}</td>
-                        <td><strong>{{ $h->description }}</strong></td>
-                        <td>
-                            @if($h->type == 'in')
-                                <span style="color: #28a745;">+{{ $h->amount }} Pts</span>
-                            @else
-                                <span style="color: #dc3545;">-{{ $h->amount }} Pts</span>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
-    </div>
+            @empty
+                <tr>
+                    <td colspan="3" style="text-align: center; color: gray; font-style: italic;">
+                        Belum ada riwayat mutasi poin loyalty pada akun Anda.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 </body>
 </html>

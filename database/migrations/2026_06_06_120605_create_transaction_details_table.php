@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_details', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        $table->id();
+        $table->foreignId('transaction_id')->constrained()->onDelete('cascade');
+        $table->foreignId('reward_id')->constrained()->onDelete('cascade'); // ngehubungin ke ID Menu dari katalog
+        $table->integer('quantity')->default(1);
+        $table->string('size'); // pilih reguler, large
+        $table->string('ice_level'); // pilih normal, less
+        $table->string('sugar_level'); // pilih normal, less
+        $table->timestamps();
         });
     }
 
