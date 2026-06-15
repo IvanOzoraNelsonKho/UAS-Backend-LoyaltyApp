@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Voucher::factory(10)->create();
-        \App\Models\Merchant::factory(10)->create();
+        $this->call([
+            MerchantSeeder::class,
+            VoucherSeeder::class,
+        ]);
         //User::factory(10)->create();
 
         // User::factory()->create([

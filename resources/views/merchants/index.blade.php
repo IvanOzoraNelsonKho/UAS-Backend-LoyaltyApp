@@ -7,7 +7,10 @@
    
     <a href="{{ route('merchants.index') }}">Tabel Merchant</a> | 
     <a href="{{ route('vouchers.index') }}">Tabel Voucher</a> | 
-    <a href="{{ route('redemptions.index') }}">Tabel Redemption</a>
+    <a href="{{ route('redemptions.index') }}">Tabel Redemption</a> |
+    <a href="{{ route('transactions.create') }}">🛒 Pesan Online</a> | 
+    <a href="{{ route('point_histories.index') }}">🪙 History Point</a> |
+    <a href="{{ route('transactions.index') }}">📜 Riwayat Transaksi</a>
     <br><br>
 
 <a href="{{ route('merchants.create') }}">Tambah Merchant</a>

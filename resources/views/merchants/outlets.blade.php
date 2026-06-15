@@ -3,7 +3,7 @@
     <title>Daftar Outlet</title>
 </head>
 <body>
-    <h1>Daftar Outlet (Versi User)</h1>
+    <h1>Daftar Outlet</h1>
    
     <a href="/outlets">Daftar Outlet</a> | 
     <a href="/offers">Daftar Promo</a> | 
