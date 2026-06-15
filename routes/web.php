@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TierController;
 use App\Http\Controllers\MissionController;
@@ -12,8 +15,8 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\ReferralController; // Perbaikan typo kapital (COntrollers -> Controllers)
-use App\Http\Controllers\AuthController;       // Import AuthController baru
+use App\Http\Controllers\ReferralController; 
+use App\Http\Controllers\AuthController;       
 use App\Http\Controllers\WishlistController;
 
 // Halaman Utama: Jika sudah login arahkan berdasarkan Role, jika belum lempar ke Login
@@ -76,3 +79,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
 
 });
+
+
+Route::resource('categories', CategoryController::class);
+Route::resource('rewards', RewardController::class);
+Route::resource('carts', CartController::class);
