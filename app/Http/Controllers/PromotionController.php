@@ -31,4 +31,30 @@ class PromotionController extends Controller
 
         return redirect()->route('promotions.index');
     }
+
+    public function edit(Promotion $promotion)
+    {
+        return view('promotions.edit', compact('promotion'));
+    }
+
+    public function update(Request $request, Promotion $promotion)
+    {
+        $validate = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'multiplier' => 'required|integer',
+            'end_date' => 'required|date',
+        ]);
+
+        $promotion->update($validate);
+
+        return redirect()->route('promotions.index')->with('success', 'Promo berhasil diupdate!');
+    }
+
+    public function destroy(Promotion $promotion)
+    {
+        $promotion->delete();
+
+        return redirect()->route('promotions.index')->with('success', 'Promo berhasil dihapus!');
+    }
 }

@@ -31,4 +31,10 @@ class ReviewController extends Controller
 
        return redirect()->route('reviews.index');
     }
+
+    public function edit(Review $review)
+    {
+        
+    }
+
 }

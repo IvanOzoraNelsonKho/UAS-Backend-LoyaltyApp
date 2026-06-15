@@ -14,6 +14,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReferralController; // Perbaikan typo kapital (COntrollers -> Controllers)
 use App\Http\Controllers\AuthController;       // Import AuthController baru
+use App\Http\Controllers\WishlistController;
 
 // Halaman Utama: Jika sudah login arahkan berdasarkan Role, jika belum lempar ke Login
 Route::get('/', function () {
