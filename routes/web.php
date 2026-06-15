@@ -48,6 +48,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/point-histories', [PointHistoryController::class, 'index'])->name('point_histories.index');
+    Route::get('/admin/transactions', [TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
+    Route::patch('/admin/transactions/{id}/update-status', [TransactionController::class, 'updateStatus'])->name('admin.transactions.update_status');
+    Route::get('/admin/transactions', [TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
+
     
     Route::get('/referral/claim', function () {
         return view('referrals.claim');
@@ -59,10 +63,16 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('vouchers', VoucherController::class);
     Route::resource('redemptions', RedemptionController::class);
 
+    Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
+    Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+    Route::post('/promotions', [PromotionController::class, 'store'])->name('promotions.store');
 
-    Route::resource('promotions', PromotionController::class);
-    Route::resource('reviews', ReviewController::class);
-    Route::resource('notifications', NotificationController::class);
-    Route::resource('wishlists', WishlistController::class)->only(['index', 'store', 'destroy']);
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
+    Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
 
 });

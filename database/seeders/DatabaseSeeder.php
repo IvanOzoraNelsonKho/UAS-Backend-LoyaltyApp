@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Tier;
 use App\Models\Mission;
+use App\Models\Merchant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -46,6 +47,18 @@ class DatabaseSeeder extends Seeder
             'description' => 'Beli minuman apa saja lewat online order',
             'reward_points' => 100,
             'status' => true
+        ]);
+
+        \App\Models\Merchant::create([
+            'name' => 'Chatime Grand Indonesia',
+            'location' => 'Mall Grand Indonesia Lt. LG, Jakarta Pusat',
+            'contact_info' => '02112345678',
+        ]);
+
+        \App\Models\Merchant::create([
+            'name' => 'Chatime Central Park',
+            'location' => 'Mall Central Park Lt. 2, Jakarta Barat',
+            'contact_info' => '02187654321',
         ]);
     }
 }

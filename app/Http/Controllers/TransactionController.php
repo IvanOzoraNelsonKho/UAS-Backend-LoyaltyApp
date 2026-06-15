@@ -17,15 +17,15 @@ class TransactionController extends Controller
     // ini buat nampilin semua riwayat transaksi
     public function index()
     {
-    $currentCustomerId = auth()->id() ?? 1; // Default ke ID 1 klu belum login
+        // Cek jika user yang login adalah Admin (is_admin == true atau 1)
+        if (auth()->user()->is_admin) {
+            $transactions = Transaction::with(['user', 'merchant', 'transactionDetails.reward'])->latest()->get();
+            return view('admin.orders_dashboard', compact('transactions'));
+        }
 
-    $transactions = Transaction::with(['merchant', 'details.reward'])
-                    ->where('user_id', $currentCustomerId) 
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-
-    return view('transactions.index', compact('transactions'));
-  
+        // Jika bukan admin, load pesanan milik customer itu sendiri
+        $transactions = Transaction::where('user_id', auth()->id())->latest()->get();
+        return view('transactions.index', compact('transactions'));
     }
 
     // tampilin form pesen online
