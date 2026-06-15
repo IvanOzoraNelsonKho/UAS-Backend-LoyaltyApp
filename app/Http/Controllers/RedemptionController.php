@@ -23,7 +23,10 @@ class RedemptionController extends Controller
      */
     public function create()
     {
-        return view('redemptions.create');
+        $users = \App\Models\User::all();
+        $rewards = \App\Models\Reward::all(); 
+        $merchants = \App\Models\Merchant::all();
+        return view('redemptions.create', compact('users', 'rewards', 'merchants'));
     }
 
     /**
@@ -70,7 +73,10 @@ class RedemptionController extends Controller
     public function edit(string $id)
     {
         $redemption = Redemption::findOrFail($id);
-        return view('redemptions.edit', compact('redemption'));
+        $users = \App\Models\User::all();
+        $rewards = \App\Models\Reward::all(); 
+        $merchants = \App\Models\Merchant::all();
+        return view('redemptions.edit', compact('redemption', 'users', 'rewards', 'merchants'));
     }
 
     /**
