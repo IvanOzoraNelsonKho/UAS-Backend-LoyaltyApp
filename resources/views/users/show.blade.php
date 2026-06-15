@@ -34,11 +34,20 @@
     <ul>
         <li><b>Email Aktif:</b> {{ $user->email }}</li>
         <li><b>Tanggal Bergabung:</b> {{ $user->created_at ? $user->created_at->format('d M Y') : date('d M Y') }}</li>
+        <li><b>Kode Referral Anda:</b> <span style="background-color: #ffffcc; padding: 2px 6px; border: 1px dashed #ccc; font-weight: bold; color: purple;">{{ $user->referral_code ?? 'Tidak Ada (Admin)' }}</span></li>
     </ul>
 
     <br>
-    <a href="{{ route('missions.index') }}"><button>🎮 Masuk ke Halaman Misi</button></a>
-    <a href="/point-histories"><button>📜 Lihat Riwayat Mutasi Poin</button></a>
+    <a href="{{ route('missions.index') }}"><button style="padding: 8px 12px; cursor: pointer;">🎮 Masuk ke Halaman Misi</button></a>
+    
+    <a href="{{ route('transactions.create') }}"><button style="padding: 8px 12px; cursor: pointer;">🛒 Pesan Online</button></a>
+    
+    <a href="{{ route('point_histories.index') }}"><button style="padding: 8px 12px; cursor: pointer;">🪙 History Point</button></a>
+    
+    <a href="{{ route('transactions.index') }}"><button style="padding: 8px 12px; cursor: pointer;">📜 Riwayat Transaksi</button></a>
+
+    <a href="{{ route('referral.claim') }}"><button style="padding: 8px 12px; cursor: pointer;">🎁 Klaim Kode Referral</button></a>
+    <br><br>
 
     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
     @csrf

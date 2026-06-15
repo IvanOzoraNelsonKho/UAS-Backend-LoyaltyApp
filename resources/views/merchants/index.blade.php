@@ -8,6 +8,7 @@
     <a href="{{ route('merchants.index') }}">Tabel Merchant</a> | 
     <a href="{{ route('vouchers.index') }}">Tabel Voucher</a> | 
     <a href="{{ route('redemptions.index') }}">Tabel Redemption</a>
+    <a href="{{ route('merchants.index') }}">Tabel Merchant</a> | 
     <br><br>
 
 <a href="{{ route('merchants.create') }}">Tambah Merchant</a>

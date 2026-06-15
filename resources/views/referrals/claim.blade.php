@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Klaim Kode Referral Teman</h1>
-    <a href="{{ route('transactions.index') }}">⬅️ Kembali ke Dashboard</a>
+    <a href="{{ route('users.show', auth()->id()) }}"><button>⬅️ Kembali ke Profile</button></a>
     <hr>
 
     {{-- Notifikasi Sukses --}}
@@ -20,7 +20,7 @@
 
     <p>Masukkan kode referral yang kamu dapatkan dari temanmu untuk mendapatkan bonus saldo poin loyalty awal.</p>
 
-    <form action="{{ route('referrals.claim') }}" method="POST">
+    <form action="{{ route('referral.claim') }}" method="POST">
         @csrf
         
         <label for="referrer_code"><strong>Kode Referral Teman:</strong></label><br>
@@ -29,6 +29,7 @@
                id="referrer_code" 
                placeholder="Contoh: K7X9WZ" 
                value="{{ old('referrer_code') }}" 
+               style="text-transform: uppercase;"
                required>
 
         {{-- Pesan Error Validasi Otomatis dari Laravel jika kode tidak terdaftar --}}

@@ -5,8 +5,9 @@
 </head>
 <body>
     <h1>Riwayat Pemesanan Online Anda</h1>
-    <a href="{{ route('transactions.create') }}">➕ Pesan Menu Online Lagi</a> | 
-    <a href="{{ route('point_histories.index') }}">💎 Lihat Histori Tabungan Poin</a>
+    <a href="{{ route('users.show', auth()->id()) }}"><button>⬅️ Kembali ke Profile</button></a> 
+    <a href="{{ route('transactions.create') }}"><button>➕ Pesan Menu Online</button></a> | 
+    <a href="{{ route('point_histories.index') }}"><button>💎 Lihat Histori Poin Yang di Kumpulkan</button></a>
     <hr>
 
     @if(session('success'))
