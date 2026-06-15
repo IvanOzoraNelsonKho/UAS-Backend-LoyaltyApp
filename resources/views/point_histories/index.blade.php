@@ -5,7 +5,8 @@
 </head>
 <body>
     <h1>Riwayat Aktivitas Poin Loyalty</h1>
-    <a href="{{ route('transactions.index') }}">⬅️ Kembali ke Dashboard</a>
+    <a href="{{ route('users.show', auth()->id()) }}"><button>⬅️ Kembali ke Profile</button></a>  
+    <a href="{{ route('transactions.index') }}"><button>⬅️ Kembali ke Riwayat Pemesanan </button></a>
     <hr>
 
     {{-- Ringkasan Total Saldo Poin Akun Terkini --}}

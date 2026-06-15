@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Tier;
 use App\Models\Mission;
 use App\Models\Merchant;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -59,6 +60,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'Chatime Central Park',
             'location' => 'Mall Central Park Lt. 2, Jakarta Barat',
             'contact_info' => '02187654321',
+        ]);
+        
+        \App\Models\Category::create([
+            'name' => 'Hazelnut Chocolate Milk Tea',
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'Chocolate Mousse',
         ]);
     }
 }
