@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('role')->default('customer');
+            $table->string('referral_code')->unique()->nullable();
             $table->integer('point_balance')->default(0); // Saldo poin awal = 0
 
             $table->unsignedBigInteger('tier_id')->nullable();
