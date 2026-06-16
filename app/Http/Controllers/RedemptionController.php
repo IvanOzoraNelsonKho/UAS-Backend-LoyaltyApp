@@ -91,12 +91,22 @@ class RedemptionController extends Controller
             'status' => 'required|in:pending,success',
         ]);
         $redemption = Redemption::findOrFail($id);
+        $oldStatus = $redemption->status;
+        $newStatus = $request->status;
         $redemption->update([
             'user_id' => $request->user_id,
             'reward_id' => $request->reward_id,
             'merchant_id' => $request->merchant_id,
             'status' => $request->status,
         ]);
+
+        if ($oldStatus == 'pending' && $newStatus == 'success') {
+            $reward = \App\Models\Reward::find($redemption->reward_id);
+            if ($reward && $reward->stock > 0) {
+                $reward->stock -= 1; 
+                $reward->save();
+            }
+        } 
         return redirect()->route('redemptions.index');
     }
 
