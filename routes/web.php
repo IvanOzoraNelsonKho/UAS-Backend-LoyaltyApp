@@ -53,13 +53,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/point-histories', [PointHistoryController::class, 'index'])->name('point_histories.index');
     Route::get('/admin/transactions', [TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
     Route::patch('/admin/transactions/{id}/update-status', [TransactionController::class, 'updateStatus'])->name('admin.transactions.update_status');
-    Route::get('/admin/transactions', [TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
 
     
     Route::get('/referral/claim', function () {
         return view('referrals.claim');
     })->name('referral.claim.form');    
     Route::post('/referral/claim', [ReferralController::class, 'processReferral'])->name('referral.claim');
+
+
+Route::get('/outlets', [App\Http\Controllers\MerchantController::class, 'outletsUser']);
+Route::get('/redeem', [App\Http\Controllers\RedemptionController::class, 'redeemUser']);
+Route::get('/offers', [App\Http\Controllers\VoucherController::class, 'offersUser']);
 
 
     Route::resource('merchants', MerchantController::class);
@@ -84,4 +88,6 @@ Route::middleware(['auth'])->group(function () {
 Route::resource('categories', CategoryController::class);
 Route::resource('rewards', RewardController::class);
 Route::resource('carts', CartController::class);
+
 Route::post('/cart/tambah', [CartController::class, 'store']);
+

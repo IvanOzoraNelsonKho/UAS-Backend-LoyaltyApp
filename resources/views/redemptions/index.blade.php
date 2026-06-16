@@ -20,9 +20,9 @@
     <thead>
         <tr>
             <th style="width: 50px;">No</th>
-            <th style="width: 120px;">ID User</th>
-            <th style="width: 120px;">ID Reward (Voucher)</th>
-            <th style="width: 120px;">ID Merchant</th>
+            <th style="width: 120px;">User</th>
+            <th style="width: 120px;">Reward</th>
+            <th style="width: 120px;">Outlet</th>
             <th style="width: 120px;">Status</th>
             <th style="width: 120px;">Aksi</th>
         </tr>
@@ -31,9 +31,9 @@
         @foreach ($redemptions as $index => $redemption)
         <tr>
             <td style="text-align: center;">{{ $loop->iteration }}</td>
-            <td>{{ $redemption->user_id }}</td>
-            <td>{{ $redemption->reward_id }}</td>
-            <td>{{ $redemption->merchant_id }}</td>
+            <td>{{ $redemption->user->name ?? 'Tanpa Nama' }}</td>
+            <td>{{ $redemption->reward->name ?? 'Tanpa Hadiah' }}</td>
+            <td>{{ $redemption->merchant->name ?? 'Tanpa Cabang' }}</td>
             <td>{{ ucfirst($redemption->status) }}</td>
             <td style="text-align: center;">
                 <a href="{{ route('redemptions.edit', $redemption) }}">Ubah</a> |

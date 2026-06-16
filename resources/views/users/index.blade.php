@@ -15,6 +15,7 @@
                 <th>ID</th>
                 <th>Nama</th>
                 <th>Email</th>
+                <th>Kode Referral</th>
                 <th>Saldo Poin</th>
                 <th>ID Tier</th>
                 <th>Aksi</th>
@@ -26,6 +27,9 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
+                <td style="font-weight: bold; color: purple; text-align: center; background-color: #f9f9f9;">
+                    {{ $user->referral_code ?? '-' }}
+                </td>
                 <td>{{ $user->point_balance }}</td>
                 <td>{{ $user->tier_id }}</td>
                 <td>

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Tier;
 use App\Models\Mission;
 use App\Models\Merchant;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +19,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            MerchantSeeder::class,
+            VoucherSeeder::class,
+        ]);
         // Buat Tier
         $silver = \App\Models\Tier::create(['name' => 'Silver Member', 'min_points' => 0]);
 
@@ -60,22 +65,27 @@ class DatabaseSeeder extends Seeder
             'location' => 'Mall Central Park Lt. 2, Jakarta Barat',
             'contact_info' => '02187654321',
         ]);
+
        
+     // masukin kategori dasarnya dulu
         \App\Models\Category::create(['name' => 'Minuman']);
         \App\Models\Category::create(['name' => 'Snack']);
+
+        // list menu, id 1 buat minuman, 2 buat snack
         $menus = [
             ['name' => 'Hazelnut Chocolate Milk Tea', 'points_required' => 28000, 'category_id' => 1],
             ['name' => 'grass jelly with milk', 'points_required' => 25000, 'category_id' => 1],
             ['name' => 'Brown Sugar Oatmilk', 'points_required' => 32000, 'category_id' => 1],
             ['name' => 'Choco Chip Cookies', 'points_required' => 15000, 'category_id' => 2],
+            ['name' => 'Chocolate Mousse', 'points_required' => 20000, 'category_id' => 2], // ini gua pindahin ke mari, temen lu ngaco bikinnya sbg kategori
         ];
 
-        foreach ($menus as $m) {
+        // masukin ke database, 1 KALI AJA JANGAN DOBEL BEGO
+        foreach($menus as $m){
             \App\Models\Reward::create($m);
         }
 
-        foreach ($menus as $m) {
-            \App\Models\Reward::create($m);
-        }
+        // bawaan laravel diemin aja kaga usah diutak atik
+        // User::factory(10)->create();
     }
 }
