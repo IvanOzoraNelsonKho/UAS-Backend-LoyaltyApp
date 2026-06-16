@@ -7,6 +7,15 @@
 </head>
 <body>
     <h1>Tambah User Baru</h1>
+
+    @if($errors->any())
+        <ul style="color: red;">
+            @foreach($errors->all() as $error)
+                <li><b>{{ $error }}</b></li>
+            @endforeach
+        </ul>
+    @endif
+
     <form action="{{ route('users.store') }}" method="POST">
         @csrf
         <div>
@@ -17,6 +26,11 @@
         <div>
             <label>Email:</label>
             <input type="email" name="email" required>
+        </div>
+        <br>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" placeholder="Minimal 6 karakter" required>
         </div>
         <br>
         <div>
@@ -34,6 +48,7 @@
             </select>
         </div>
         <br>
+
         <button type="submit">Simpan</button>
     </form>
     <br>

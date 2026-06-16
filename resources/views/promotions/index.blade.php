@@ -18,6 +18,7 @@
                 <th>Deskripsi</th>
                 <th>Multiplier Poin</th>
                 <th>Berlaku Sampai</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,15 @@
                 <td>{{ $promo->description }}</td>
                 <td>{{ $promo->multiplier }}</td>
                 <td>{{ $promo->end_date }}</td>
+                <td>
+                    <form action="{{ route('wishlists.store') }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        <input type="hidden" name="promotion_id" value="{{ $promo->id }}">
+                        <button type="submit">
+                            ❤️ Tambah ke Wishlist
+                        </button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

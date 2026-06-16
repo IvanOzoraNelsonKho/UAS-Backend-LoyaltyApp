@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('missions', function (Blueprint $table) {
+        Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->integer('reward_points');
-            $table->boolean('status')->default(true); // true = aktif, false = nonaktif
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('reward_id')->constrained('rewards')->onDelete('cascade');
             $table->timestamps();
-});
+        });
     }
 
     /**
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('missions');
+        Schema::dropIfExists('wishlists');
     }
 };

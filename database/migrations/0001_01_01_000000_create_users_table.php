@@ -15,13 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('point_balance')->default(0);
+            $table->string('role')->default('customer');
+            $table->string('referral_code')->unique()->nullable();
+            $table->integer('point_balance')->default(0); // Saldo poin awal = 0
+
             $table->unsignedBigInteger('tier_id')->nullable();
+            $table->boolean('is_admin')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
-        });
+});
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

@@ -12,8 +12,13 @@ class TierController extends Controller
      */
     public function index()
     {
-        $tiers = Tier::all();
-        return view('tiers.index', compact('tiers'));
+        $tiers = Tier::orderBy('min_points', 'asc')->get();
+        
+        // Cek jika user yang login adalah admin, arahkan ke view admin, jika bukan ke view customer
+        if (auth()->user() && auth()->user()->is_admin == 1) {
+            return view('tiers.index', compact('tiers'));
+        }
+        return view('tiers.show', compact('tiers'));
     }
 
     /**
@@ -34,12 +39,8 @@ class TierController extends Controller
             'min_points' => 'required|integer|min:0',
         ]);
 
-        Tier::create([
-            'name' => $request->name,
-            'min_points' => $request->min_points,
-        ]);
-
-        return redirect()->route('tiers.index');
+        Tier::create($request->all());
+        return redirect()->route('tiers.index')->with('success', 'Tier berhasil ditambahkan!');
     }
 
     /**
@@ -65,15 +66,11 @@ class TierController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'min_points' => 'required|integer|min:0'
+            'min_points' => 'required|integer|min:0',
         ]);
 
-        $tier->update([
-            'name' => $request->name,
-            'min_points' => $request->min_points
-        ]);
-
-        return redirect()->route('tiers.index');
+        $tier->update($request->all());
+        return redirect()->route('tiers.index')->with('success', 'Tier berhasil diperbarui!');
     }
 
     /**
@@ -82,6 +79,6 @@ class TierController extends Controller
     public function destroy(Tier $tier)
     {
         $tier->delete();
-        return redirect()->route('tiers.index');
+        return redirect()->route('tiers.index')->with('success', 'Tier berhasil dihapus!');
     }
 }

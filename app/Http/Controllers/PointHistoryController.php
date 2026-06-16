@@ -11,8 +11,8 @@ class PointHistoryController extends Controller
     {
         $currentCustomerId = auth()->id();
         //buat ambil semua riwayat poin punya customer yang login terus urutin dari paling baru
-        $histories = PointHistory::where('user_id', $currentCustomerId)->latest()->get();
+        $pointHistories = PointHistory::where('user_id', $currentCustomerId)->latest()->get();
 
-        return view('point_histories.index', compact('histories'));
+        return view('point_histories.index', compact('pointHistories'));
     }
 }

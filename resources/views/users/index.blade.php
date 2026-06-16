@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar User</title>
+    <title>Kelola User</title>
 </head>
 <body>
-    <h1>Daftar User</h1>
+    <h1>Dashboard Admin: Kelola User</h1>
     <a href="{{ route('users.create') }}"><button>Tambah User Baru</button></a>
     <br><br>
     <table border="1" cellpadding="10">
@@ -15,6 +15,7 @@
                 <th>ID</th>
                 <th>Nama</th>
                 <th>Email</th>
+                <th>Kode Referral</th>
                 <th>Saldo Poin</th>
                 <th>ID Tier</th>
                 <th>Aksi</th>
@@ -26,6 +27,9 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
+                <td style="font-weight: bold; color: purple; text-align: center; background-color: #f9f9f9;">
+                    {{ $user->referral_code ?? '-' }}
+                </td>
                 <td>{{ $user->point_balance }}</td>
                 <td>{{ $user->tier_id }}</td>
                 <td>
@@ -41,7 +45,11 @@
         </tbody>
     </table>
     <br>
-    <a href="{{ route('tiers.index') }}"><button>Ke Halaman Tiers</button></a> |
-    <a href="{{ route('missions.index') }}"><button>Ke Halaman Missions</button></a>
+    <a href="{{ route('tiers.index') }}"><button>Ke Dashboard Tiers</button></a> |
+    <a href="{{ route('missions.index') }}"><button>Ke Dashboard Misi</button></a> |
+    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit" style="color: red;">🚪 Keluar (Logout)</button>
+    </form>
 </body>
 </html>

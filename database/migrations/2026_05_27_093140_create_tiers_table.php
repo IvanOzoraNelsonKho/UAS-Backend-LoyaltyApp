@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('tiers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('min_points');
+            $table->integer('min_points')->default(0);
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('tier_id')->references('id')->on('tiers')->onDelete('set null');
         });
     }
 
@@ -24,6 +28,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Putuskan hubungan foreign key terlebih dahulu sebelum menghapus tabel
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->dropForeign(['tier_id']);
+        // });
+
         Schema::dropIfExists('tiers');
     }
 };

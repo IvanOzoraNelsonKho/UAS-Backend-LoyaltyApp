@@ -12,4 +12,8 @@ class Mission extends Model
         'reward_points', 
         'status'
     ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 }
