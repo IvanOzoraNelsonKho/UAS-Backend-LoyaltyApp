@@ -84,3 +84,4 @@ Route::middleware(['auth'])->group(function () {
 Route::resource('categories', CategoryController::class);
 Route::resource('rewards', RewardController::class);
 Route::resource('carts', CartController::class);
+Route::post('/cart/tambah', [CartController::class, 'store']);

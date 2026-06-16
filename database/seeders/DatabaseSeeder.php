@@ -60,5 +60,22 @@ class DatabaseSeeder extends Seeder
             'location' => 'Mall Central Park Lt. 2, Jakarta Barat',
             'contact_info' => '02187654321',
         ]);
+       
+        \App\Models\Category::create(['name' => 'Minuman']);
+        \App\Models\Category::create(['name' => 'Snack']);
+        $menus = [
+            ['name' => 'Hazelnut Chocolate Milk Tea', 'points_required' => 28000, 'category_id' => 1],
+            ['name' => 'grass jelly with milk', 'points_required' => 25000, 'category_id' => 1],
+            ['name' => 'Brown Sugar Oatmilk', 'points_required' => 32000, 'category_id' => 1],
+            ['name' => 'Choco Chip Cookies', 'points_required' => 15000, 'category_id' => 2],
+        ];
+
+        foreach ($menus as $m) {
+            \App\Models\Reward::create($m);
+        }
+
+        foreach ($menus as $m) {
+            \App\Models\Reward::create($m);
+        }
     }
 }

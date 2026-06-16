@@ -27,7 +27,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         return redirect()->back()->with('success', 'Asik masuk keranjang ges!');
     }
 
     /**
@@ -35,7 +35,7 @@ class CartController extends Controller
      */
     public function show(string $id)
     {
-        //
+   
     }
 
     /**
