@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            MerchantSeeder::class,
+            VoucherSeeder::class,
+        ]);
         // Buat Tier
         $silver = \App\Models\Tier::create(['name' => 'Silver Member', 'min_points' => 0]);
 
@@ -69,5 +73,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\Category::create([
             'name' => 'Chocolate Mousse',
         ]);
+        //User::factory(10)->create();
+
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }
