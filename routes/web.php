@@ -88,3 +88,6 @@ Route::get('/offers', [App\Http\Controllers\VoucherController::class, 'offersUse
 Route::resource('categories', CategoryController::class);
 Route::resource('rewards', RewardController::class);
 Route::resource('carts', CartController::class);
+
+Route::post('/cart/tambah', [CartController::class, 'store']);
+
