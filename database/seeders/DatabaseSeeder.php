@@ -65,19 +65,27 @@ class DatabaseSeeder extends Seeder
             'location' => 'Mall Central Park Lt. 2, Jakarta Barat',
             'contact_info' => '02187654321',
         ]);
-        
-        \App\Models\Category::create([
-            'name' => 'Hazelnut Chocolate Milk Tea',
-        ]);
 
-        \App\Models\Category::create([
-            'name' => 'Chocolate Mousse',
-        ]);
-        //User::factory(10)->create();
+       
+     // masukin kategori dasarnya dulu
+        \App\Models\Category::create(['name' => 'Minuman']);
+        \App\Models\Category::create(['name' => 'Snack']);
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // list menu, id 1 buat minuman, 2 buat snack
+        $menus = [
+            ['name' => 'Hazelnut Chocolate Milk Tea', 'points_required' => 28000, 'category_id' => 1],
+            ['name' => 'grass jelly with milk', 'points_required' => 25000, 'category_id' => 1],
+            ['name' => 'Brown Sugar Oatmilk', 'points_required' => 32000, 'category_id' => 1],
+            ['name' => 'Choco Chip Cookies', 'points_required' => 15000, 'category_id' => 2],
+            ['name' => 'Chocolate Mousse', 'points_required' => 20000, 'category_id' => 2], // ini gua pindahin ke mari, temen lu ngaco bikinnya sbg kategori
+        ];
+
+        // masukin ke database, 1 KALI AJA JANGAN DOBEL BEGO
+        foreach($menus as $m){
+            \App\Models\Reward::create($m);
+        }
+
+        // bawaan laravel diemin aja kaga usah diutak atik
+        // User::factory(10)->create();
     }
 }

@@ -30,5 +30,7 @@
     <br>
     <p>Belum punya akun? <a href="{{ route('register') }}">Sign Up di sini</a></p>
 
+    
+
 </body>
 </html>

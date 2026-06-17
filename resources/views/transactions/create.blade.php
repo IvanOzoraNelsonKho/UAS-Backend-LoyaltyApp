@@ -5,9 +5,26 @@
 </head>
 <body>
     <h1>Buat Pesanan Baru / Checkout</h1>
+    @if(session('error'))
+        <p style="color: red; font-weight: bold;">{{ session('error') }}</p>
+    @endif
+
+    @if ($errors->any())
+        <div style="color: red; font-weight: bold; border: 1px solid red; padding: 10px; margin-bottom: 10px;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <a href="{{ route('users.show', auth()->id()) }}"><button>⬅️ Kembali ke Profile</button></a>  
     <a href="{{ route('transactions.index') }}"><button>⬅️ Kembali ke Riwayat Pemesanan</button></a>
     <hr>
+
+    @if(session('error'))
+        <p style="color: red; font-weight: bold;">{{ session('error') }}</p>
+    @endif
 
     <form action="{{ route('transactions.store') }}" method="POST">
         @csrf
@@ -54,6 +71,16 @@
             </div>
         @endif
 
+        <h3>🎁 Gunakan Voucher Promo (Opsional)</h3>
+        <select name="voucher_id">
+            <option value="">-- Tidak Menggunakan Voucher --</option>
+            @foreach(\App\Models\Voucher::where('is_used', false)->get() as $voucher)
+                <option value="{{ $voucher->id }}" {{ request('voucher_id') == $voucher->id ? 'selected' : '' }}>
+                    {{ $voucher->code }} - Potongan Rp {{ number_format($voucher->discount_value, 0, ',', '.') }}
+                </option>
+            @endforeach
+        </select>
+
         <h3>4. Pilih Menu (Item Pesanan)</h3>
         <div id="menu-container">
             @php
@@ -63,16 +90,19 @@
             @for($i = 0; $i < $jumlahItem; $i++)
                 <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                     <label><strong>Pilih Item {{ $i + 1 }}{{ $i > 0 ? ' (Opsional):' : ':' }}</strong></label><br>
+                    
+                    <!-- harga disamain semua RP 30.000 -->
                     <select name="items[{{ $i }}][reward_id]" {{ $i == 0 ? 'required' : '' }}>
                         <option value="">-- Pilih Menu --</option>
                         @foreach(\App\Models\Reward::all() as $reward)
                             <option value="{{ $reward->id }}">
-                                {{ $reward->name }} - Rp {{ number_format($reward->price_points, 0, ',', '.') }}
+                                {{ $reward->name }} - Rp 30.000
                             </option>
                         @endforeach
                     </select>
                     <br><br>
 
+                    <!-- update ukuran cup nambah RP 5.000 -->
                     <label>Ukuran Cup:</label>
                     <select name="items[{{ $i }}][size]" required>
                         <option value="reguler">Reguler</option>
