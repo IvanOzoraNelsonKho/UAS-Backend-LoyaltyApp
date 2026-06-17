@@ -14,46 +14,47 @@
         <p style="color: green; font-weight: bold;">{{ session('success') }}</p>
     @endif
 
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left;">
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
         <thead>
             <tr style="background-color: #f2f2f2;">
-                <th>ID Order</th>
+                <th>ID Order (Nota)</th>
                 <th>Cabang Toko</th>
-                <th>Daftar Menu Yang Dibeli</th>
+                <th>Daftar Menu Yang Dibeli & Atribut</th>
                 <th>Total Bayar</th>
                 <th>Bonus Poin Diperoleh</th>
                 <th>Metode</th>
                 <th>Status Pembuatan Menu</th>
-                <th>Tanggal</th>
+                <th>Waktu Pemesanan</th>
             </tr>
         </thead>
         <tbody>
             @foreach($transactions as $tx)
             <tr>
-                <td>#ORD-{{ $tx->id }}</td>
+                <td><strong>{{ $tx->order_id }}</strong></td>
                 <td>{{ $tx->merchant->name }}</td>
                 <td>
-                    <ul>
+                    <ul style="padding-left: 15px; margin: 0;">
                         @foreach($tx->details as $detail)
-                            <li>{{ $detail->reward->name }} ({{ $detail->quantity }}x) @ Rp{{ number_format($tx->total_amount, 0, ',', '.') }}</li>
+                            <li style="margin-bottom: 5px;">
+                                <strong>{{ $detail->reward->name }}</strong> ({{ $detail->quantity }}x)<br>
+                                <small style="color: #555; display: inline-block; margin-top: 2px;">
+                                    Ukuran: {{ ucfirst($detail->size) }} | 
+                                    Ice: {{ ucfirst($detail->ice_level) }} Ice | 
+                                    Sugar: {{ ucfirst($detail->sugar_level) }} Sugar
+                                </small>
+                            </li>
                         @endforeach
                     </ul>
                 </td>
-                <td>Rp {{ number_with_delimiter($tx->total_amount) }}</td>
-                <td><strong style="color: blue;">+{{ $tx->points_earned }} Poin</strong></td>
+                <td>Rp {{ number_format($tx->total_price, 0, ',', '.') }}</td>
+                <td><strong style="color: blue;">+{{ $tx->details->count() * 20 }} Poin</strong></td>
                 <td>{{ strtoupper($tx->payment_method) }}</td>
                 <td>
-                    @if($tx->status == 'pending')
-                        <span style="background-color: yellow; padding: 2px 5px;">⏳ Menunggu Konfirmasi Toko</span>
-                    @elseif($tx->status == 'processing')
-                        <span style="background-color: orange; padding: 2px 5px; color: white;">☕ Minuman Sedang Dibuat</span>
-                    @elseif($tx->status == 'completed')
-                        <span style="background-color: green; padding: 2px 5px; color: white;">✅ Selesai (Sudah Diambil)</span>
-                    @else
-                        <span style="background-color: red; padding: 2px 5px; color: white;">❌ Dibatalkan</span>
-                    @endif
+                    <span style="background-color: #ffeeba; color: #856404; padding: 4px 8px; border-radius: 4px; font-weight: bold; display: inline-block;">
+                        ⏳ {{ $tx->status }}
+                    </span>
                 </td>
-                <td>{{ $tx->transaction_date }}</td>
+                <td>{{ $tx->created_at->format('d M Y, H:i') }} WIB</td>
             </tr>
             @endforeach
         </tbody>

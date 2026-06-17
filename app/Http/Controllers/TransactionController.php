@@ -2,135 +2,173 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
-use App\Models\PointHistory;
 use App\Models\User;
-use App\Models\Merchant;
-use App\Models\Reward;
-use Illuminate\Http\Request;
+use App\Models\PointHistory;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
-    // ini buat nampilin semua riwayat transaksi
     public function index()
     {
-        // Cek jika user yang login adalah Admin (is_admin == true atau 1)
-        if (auth()->user()->is_admin) {
-            $transactions = Transaction::with(['user', 'merchant', 'transactionDetails.reward'])->latest()->get();
-            return view('admin.orders_dashboard', compact('transactions'));
-        }
-
-        // Jika bukan admin, load pesanan milik customer itu sendiri
-        $transactions = Transaction::where('user_id', auth()->id())->latest()->get();
+        $transactions = Transaction::where('user_id', Auth::id())->latest()->get();
         return view('transactions.index', compact('transactions'));
     }
 
-    // tampilin form pesen online
     public function create()
     {
-        $users = User::all();
-        $merchants = Merchant::all();
-        $rewards = Reward::where('stock', '>', 0)->get(); // cuman nampilin produk yg ada stok
-        
-        return view('transactions.create', compact('users', 'merchants', 'rewards'));
+        return view('transactions.create');
     }
 
-    // logika checkout online
     public function store(Request $request)
     {
+        // 1. Validasi Input Form
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'merchant_id' => 'required|exists:merchants,id',
-            'payment_method' => 'required|in:cash,e-wallet',
+            'recipient_name' => 'required|string|max:255',
+            'recipient_phone' => 'required|string',
+            'merchant_id' => 'required|integer',
+            'order_type' => 'required|string',
+            'payment_method' => 'required|string',
+            'bank_name' => 'nullable|string',
+            'voucher_id' => 'nullable|integer|exists:vouchers,id', 
             'items' => 'required|array|min:1',
-            'items.*.reward_id' => 'required|exists:rewards,id',
-            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.reward_id' => 'nullable|integer',
+            'items.*.size' => 'required|in:reguler,large',
+            'items.*.ice_level' => 'required|in:normal,less', 
+            'items.*.sugar_level' => 'required|in:normal,less', 
         ]);
 
-        // DB Transaction biar kalau ada salah satu query gagal, datanya gidak rusak/corrupt
-        DB::transaction(function () use ($request) {
-            $totalAmount = 0;
-            $itemsToInsert = [];
+        $user = Auth::user() ?? User::first(); 
+        if (!$user) {
+            return redirect()->back()->with('error', 'User tidak ditemukan.');
+        }
 
-            // Hitung total tiap produk dan cek stok
+        DB::beginTransaction();
+        try {
+            $totalPrice = 0;
+            $totalItemsPurchased = 0;
+            $detailItems = [];
+
+            // 2. Hitung total harga belanja sebelum diskon
             foreach ($request->items as $item) {
-                $product = Reward::findOrFail($item['reward_id']);
-                
-                if ($product->stock < $item['quantity']) {
-                    throw new \Exception("Stok untuk produk {$product->name} tidak mencukupi!");
+                if (empty($item['reward_id'])) {
+                    continue;
                 }
 
-                $subtotal = $product->price * $item['quantity'];
-                $totalAmount += $subtotal;
+                // Logika: Harga pokok flat Rp 30.000
+                $basePrice = 30000;
+                
+                // Logika: Jika berukuran Large, harga ditambah Rp 5.000
+                $addSizePrice = ($item['size'] === 'large') ? 5000 : 0;
+                
+                $pricePerUnit = $basePrice + $addSizePrice;
+                $quantity = 1; 
+                $subtotal = $pricePerUnit * $quantity;
 
-                // Kurangin stok produk secara langsung
-                $product->decrement('stock', $item['quantity']);
+                $totalPrice += $subtotal;
+                $totalItemsPurchased += $quantity;
 
-                $itemsToInsert[] = [
-                    'reward_id' => $product->id,
-                    'quantity' => $item['quantity'],
-                    'price' => $product->price,
+                $detailItems[] = [
+                    'reward_id' => $item['reward_id'],
+                    'quantity' => $quantity,
+                    'size' => $item['size'],
+                    'ice_level' => $item['ice_level'],
+                    'sugar_level' => $item['sugar_level'],
                 ];
             }
 
-            // Hitung poin (tiap kelipatan Rp 10.000 dapat 10 Poin)
-            $pointsEarned = floor($totalAmount / 10000);
-
-            // Simpan ke Tabel Transactions
-            $transaction = Transaction::create([
-                'user_id' => $request->user_id,
-                'merchant_id' => $request->merchant_id,
-                'total_amount' => $totalAmount,
-                'points_earned' => $pointsEarned,
-                'payment_method' => $request->payment_method,
-                'status' => 'pending',
-                'transaction_date' => now()->toDateString(),
-            ]);
-
-            // simpan semua item ke Tabel Transaction Details
-            foreach ($itemsToInsert as $detailItem) {
-                $detailItem['transaction_id'] = $transaction->id;
-                TransactionDetail::create($detailItem);
+            if ($totalItemsPurchased === 0) {
+                return redirect()->back()->with('error', 'Anda harus memilih minimal satu menu.');
             }
 
-            // tambahin Saldo Poin ke Akun User
-            $user = User::findOrFail($request->user_id);
-            $user->increment('point_balance', $pointsEarned);
+            // 3. LOGIKA DISKON VOUCHER (Disamakan dengan kolom 'discount_value' dari model kamu)
+            $discount = 0;
+            if ($request->filled('voucher_id')) {
+                $voucher = \App\Models\Voucher::find($request->voucher_id);
+                if ($voucher) {
+                    // MENGGUNAKAN discount_value sesuai isi database kamu!
+                    $discount = $voucher->discount_value;
+                }
+            }
 
-            // catat Mutasi Poin Masuk ke Point Histories
+            // Potong total harga transaksi (tidak boleh minus di bawah 0)
+            $totalPriceFinal = max(0, $totalPrice - $discount);
+
+            // Hitung bonus poin kelipatan (1 menu = 20 poin)
+            $earnedPoints = $totalItemsPurchased * 20;
+
+            // Generate No Nota / Order ID unik
+            $orderId = 'ORD-' . strtoupper(Str::random(8));
+
+            // 4. Simpan ke tabel utama 'transactions'
+            $transaction = Transaction::create([
+                'user_id' => $user->id,
+                'merchant_id' => $request->merchant_id,
+                'order_id' => $orderId,
+                'recipient_name' => $request->recipient_name,
+                'recipient_phone' => $request->recipient_phone,
+                'payment_method' => $request->payment_method,
+                'bank_name' => $request->payment_method === 'transfer_bank' ? $request->bank_name : null,
+                'order_type' => $request->order_type,
+                'total_price' => $totalPriceFinal, // Sudah terpotong diskon voucher
+                'status' => 'Pesanan sedang diproses', 
+            ]);
+
+            // 5. Simpan ke tabel detail 'transaction_details'
+            foreach ($detailItems as $detail) {
+                $detail['transaction_id'] = $transaction->id;
+                TransactionDetail::create($detail);
+            }
+
+            // 6. Mutasi penambahan poin user
+            $user->point_balance += $earnedPoints;
+            $user->save();
+
+            // 7. Catat history poin masuk
             PointHistory::create([
                 'user_id' => $user->id,
                 'type' => 'in',
-                'amount' => $pointsEarned,
-                'description' => "Mendapatkan poin dari pesanan online #ORD-{$transaction->id}",
+                'amount' => $earnedPoints,
+                'description' => 'Poin Pembelian Online ' . $orderId . ' (' . $totalItemsPurchased . ' Menu)'
             ]);
-        });
 
-        return redirect()->route('transactions.index')->with('success', 'Pesanan Online Berhasil Dibuat!');
+            DB::commit();
+
+            return redirect()->route('transactions.index')
+                             ->with('success', 'Pesanan berhasil dibuat! Potongan Rp ' . number_format($discount, 0, ',', '.') . ' diterapkan.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal memproses pesanan: ' . $e->getMessage());
+        }
     }
 
-    // klu admin
-    public function adminIndex() {
-        $transactions = Transaction::with(['user', 'merchant', 'details.reward'])
-                        ->orderBy('created_at', 'desc')
-                        ->get();
-
+    // 1. Fungsi untuk menampilkan halaman Dashboard Pesanan Admin
+    public function adminDashboard()
+    {
+        // Ambil semua transaksi dari database dan urutkan dari yang paling baru
+        $transactions = Transaction::with(['user', 'merchant', 'details.reward'])->latest()->get();
+        
         return view('admin.orders_dashboard', compact('transactions'));
-    } 
+    }
 
-    // update Status Pesanan oleh Admin atau Kasir Toko (misalnya 'processing', 'completed', 'cancelled')
+    // 2. Fungsi untuk memproses perubahan status pesanan oleh Admin
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:processing,completed,cancelled'
+            'status' => 'required|string'
         ]);
 
         $transaction = Transaction::findOrFail($id);
-        $transaction->update(['status' => $request->status]);
+        $transaction->status = $request->status;
+        $transaction->save();
 
-        return redirect()->back()->with('success', "Status pesanan #ORD-{$id} berhasil diperbarui menjadi {$request->status}!");
+        return redirect()->route('admin.orders.dashboard')
+                         ->with('success', 'Status Pesanan ' . $transaction->order_id . ' berhasil diperbarui menjadi: ' . $request->status);
     }
+
 }

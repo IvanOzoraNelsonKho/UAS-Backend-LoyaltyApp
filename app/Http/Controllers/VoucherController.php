@@ -85,4 +85,10 @@ class VoucherController extends Controller
         $voucher->delete();
         return redirect()->route('vouchers.index');
     }
+
+    public function offersUser()
+    {
+        $vouchers = \App\Models\Voucher::all();
+        return view('vouchers.offers', compact('vouchers'));
+    }
 }
