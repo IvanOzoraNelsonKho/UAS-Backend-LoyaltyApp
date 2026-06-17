@@ -9,14 +9,29 @@
         @csrf
         @method('PUT')
         
-        <label for="user_id">ID User:</label><br>
-        <input type="number" id="user_id" name="user_id" value="{{ $redemption->user_id }}" required><br><br>
+        <label for="user_id">Nama User:</label><br>
+        <select id="user_id" name="user_id" required>
+            <option value="">-- Pilih User --</option>
+            @foreach($users as $user)
+                <option value="{{ $user->id }}" {{ $redemption->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+            @endforeach
+        </select><br><br>
 
-        <label for="reward_id">ID Reward (Voucher):</label><br>
-        <input type="number" id="reward_id" name="reward_id" value="{{ $redemption->reward_id }}" required><br><br>
+        <label for="reward_id">Reward:</label><br>
+        <select id="reward_id" name="reward_id" required>
+            <option value="">-- Pilih Reward --</option>
+            @foreach($rewards as $reward)
+                <option value="{{ $reward->id }}" {{ $redemption->reward_id == $reward->id ? 'selected' : '' }}>{{ $reward->name }}</option>
+            @endforeach
+        </select><br><br>
 
-        <label for="merchant_id">ID Merchant:</label><br>
-        <input type="number" id="merchant_id" name="merchant_id" value="{{ $redemption->merchant_id }}" required><br><br>
+        <label for="merchant_id">Outlet:</label><br>
+        <select id="merchant_id" name="merchant_id" required>
+            <option value="">-- Pilih Outlet --</option>
+            @foreach($merchants as $merchant)
+                <option value="{{ $merchant->id }}" {{ $redemption->merchant_id == $merchant->id ? 'selected' : '' }}>{{ $merchant->name }}</option>
+            @endforeach
+        </select><br><br>
 
         <label for="status">Status Penukaran:</label><br>
         <select id="status" name="status" required>
