@@ -62,12 +62,5 @@ class DatabaseSeeder extends Seeder
             'contact_info' => '02187654321',
         ]);
         
-        \App\Models\Category::create([
-            'name' => 'Hazelnut Chocolate Milk Tea',
-        ]);
-
-        \App\Models\Category::create([
-            'name' => 'Chocolate Mousse',
-        ]);
     }
 }

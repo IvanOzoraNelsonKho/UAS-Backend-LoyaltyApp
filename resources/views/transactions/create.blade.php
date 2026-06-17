@@ -76,7 +76,7 @@
                     <label>Ukuran Cup:</label>
                     <select name="items[{{ $i }}][size]" required>
                         <option value="reguler">Reguler</option>
-                        <option value="large">Large (+Rp 5.000)</option>
+                        <option value="large">Large (+50 poin)</option>
                     </select>
 
                     <label>Ice Level:</label>
