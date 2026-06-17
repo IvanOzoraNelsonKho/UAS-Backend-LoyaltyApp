@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('redemptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('reward_id');
-            $table->unsignedBigInteger('merchant_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('reward_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('merchant_id')->nullable();
+            $table->integer('points_spent')->default(0);
             $table->enum('status', ['pending', 'success'])->default('pending');
             $table->timestamps();
         });
