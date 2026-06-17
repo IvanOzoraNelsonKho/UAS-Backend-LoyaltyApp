@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\HasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TransactionDetail extends Model
@@ -15,7 +15,10 @@ class TransactionDetail extends Model
         'transaction_id',
         'reward_id',
         'quantity',
-        'price'
+        'price',
+        'size',
+        'ice_level',
+        'sugar_level',
     ];
 
     public function transaction() {
