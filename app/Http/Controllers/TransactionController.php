@@ -26,7 +26,6 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validasi Input Form
         $request->validate([
             'recipient_name' => 'required|string|max:255',
             'recipient_phone' => 'required|string',
@@ -53,16 +52,16 @@ class TransactionController extends Controller
             $totalItemsPurchased = 0;
             $detailItems = [];
 
-            // 2. Hitung total harga belanja sebelum diskon
+            // Hitung total harga belanja sebelum diskon
             foreach ($request->items as $item) {
                 if (empty($item['reward_id'])) {
                     continue;
                 }
 
-                // Logika: Harga pokok flat Rp 30.000
+                // Harga pokok flat Rp 30.000
                 $basePrice = 30000;
                 
-                // Logika: Jika berukuran Large, harga ditambah Rp 5.000
+                // Jika berukuran Large, harga ditambah Rp 5.000
                 $addSizePrice = ($item['size'] === 'large') ? 5000 : 0;
                 
                 $pricePerUnit = $basePrice + $addSizePrice;
@@ -85,12 +84,11 @@ class TransactionController extends Controller
                 return redirect()->back()->with('error', 'Anda harus memilih minimal satu menu.');
             }
 
-            // 3. LOGIKA DISKON VOUCHER (Disamakan dengan kolom 'discount_value' dari model kamu)
+            // Cek apakah ada voucher yang dipilih dan hitung diskon
             $discount = 0;
             if ($request->filled('voucher_id')) {
                 $voucher = \App\Models\Voucher::find($request->voucher_id);
                 if ($voucher) {
-                    // MENGGUNAKAN discount_value sesuai isi database kamu!
                     $discount = $voucher->discount_value;
                 }
             }
@@ -104,7 +102,7 @@ class TransactionController extends Controller
             // Generate No Nota / Order ID unik
             $orderId = 'ORD-' . strtoupper(Str::random(8));
 
-            // 4. Simpan ke tabel utama 'transactions'
+            // Simpan ke tabel utama 'transactions'
             $transaction = Transaction::create([
                 'user_id' => $user->id,
                 'merchant_id' => $request->merchant_id,
@@ -114,21 +112,21 @@ class TransactionController extends Controller
                 'payment_method' => $request->payment_method,
                 'bank_name' => $request->payment_method === 'transfer_bank' ? $request->bank_name : null,
                 'order_type' => $request->order_type,
-                'total_price' => $totalPriceFinal, // Sudah terpotong diskon voucher
+                'total_price' => $totalPriceFinal, 
                 'status' => 'Pesanan sedang diproses', 
             ]);
 
-            // 5. Simpan ke tabel detail 'transaction_details'
+            // Simpan ke tabel detail 'transaction_details'
             foreach ($detailItems as $detail) {
                 $detail['transaction_id'] = $transaction->id;
                 TransactionDetail::create($detail);
             }
 
-            // 6. Mutasi penambahan poin user
+            // Mutasi penambahan poin user
             $user->point_balance += $earnedPoints;
             $user->save();
 
-            // 7. Catat history poin masuk
+            // Catat history poin masuk
             PointHistory::create([
                 'user_id' => $user->id,
                 'type' => 'in',
@@ -147,7 +145,6 @@ class TransactionController extends Controller
         }
     }
 
-    // 1. Fungsi untuk menampilkan halaman Dashboard Pesanan Admin
     public function adminDashboard()
     {
         // Ambil semua transaksi dari database dan urutkan dari yang paling baru
@@ -156,7 +153,6 @@ class TransactionController extends Controller
         return view('admin.orders_dashboard', compact('transactions'));
     }
 
-    // 2. Fungsi untuk memproses perubahan status pesanan oleh Admin
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -167,8 +163,9 @@ class TransactionController extends Controller
         $transaction->status = $request->status;
         $transaction->save();
 
-        return redirect()->route('admin.orders.dashboard')
-                         ->with('success', 'Status Pesanan ' . $transaction->order_id . ' berhasil diperbarui menjadi: ' . $request->status);
+        return redirect()
+        ->route('admin.orders.dashboard')
+        ->with('success', 'Status Pesanan ' . $transaction->order_id . ' berhasil diperbarui menjadi: ' . $request->status);
     }
 
 }
