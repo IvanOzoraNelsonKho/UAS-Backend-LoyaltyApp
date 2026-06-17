@@ -85,3 +85,4 @@ Route::resource('categories', CategoryController::class);
 Route::resource('rewards', RewardController::class);
 Route::resource('carts', CartController::class);
 Route::post('/cart/tambah', [CartController::class, 'store']);
+Route::post('/cart/checkout', [CartController::class, 'checkout']);

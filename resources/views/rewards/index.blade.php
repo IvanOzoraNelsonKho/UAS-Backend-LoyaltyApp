@@ -40,6 +40,16 @@
             </div>
         @endforeach
     </div>
+    
+    <div style="margin: 20px 0; border: 2px dashed red; padding: 10px; text-align: center;">
+    <h3>Tes Checkout Dimari Bos:</h3>
+    <form action="{{ url('/cart/checkout') }}" method="POST">
+        @csrf
+        <button type="submit" style="background-color: green; color: white; padding: 15px; font-size: 16px; font-weight: bold; cursor: pointer;">
+            Bantai Checkout Sekarang!
+        </button>
+    </form>
+</div>
 
 </body>
 </html>
