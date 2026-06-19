@@ -88,11 +88,11 @@ Route::get('/offers', [App\Http\Controllers\VoucherController::class, 'offersUse
 Route::resource('categories', CategoryController::class);
 Route::resource('rewards', RewardController::class);
 Route::resource('carts', CartController::class);
-<<<<<<< HEAD
+
 Route::post('/cart/tambah', [CartController::class, 'store']);
 Route::post('/cart/checkout', [CartController::class, 'checkout']);
-=======
+
 
 Route::post('/cart/tambah', [CartController::class, 'store']);
 
->>>>>>> e9855b70a5e90a9a43cca738b948ae42c367044a
+
