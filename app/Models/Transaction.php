@@ -13,26 +13,26 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'merchant_id', 
-        'total_amount', 
-        'points_earned', 
+        'order_id',
+        'recipient_name',
+        'recipient_phone',
         'payment_method', 
-        'status', 
-        'transaction_date'
+        'bank_name',
+        'order_type',
+        'total_price', 
+        'status',
     ];
 
-    // ini bikin fungsi relasi ke user biar kita bisa akses data sih user yg trnsaksi
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
     
-    // relasi ke merchant
     public function merchant()
     {
         return $this->belongsTo(Merchant::class);
     }
 
-    // Relasi ke Item Detail Pesanan
     public function details()
     {
         return $this->hasMany(TransactionDetail::class);

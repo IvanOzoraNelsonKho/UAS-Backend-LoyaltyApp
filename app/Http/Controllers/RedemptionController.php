@@ -51,8 +51,9 @@ class RedemptionController extends Controller
                 'reward_id' => $request->reward_id,
                 'merchant_id' => $request->merchant_id,
                 'status' => 'pending',
+                'points_spent' => $reward->points_required,
             ]);
-            return redirect()->route('redemptions.index')->with('success', 'Reward berhasil ditukar! Poin telah dipotong.');
+            return redirect()->back()->with('success', 'Reward berhasil ditukar! Poin telah dipotong.');
         } 
         else {
             return redirect()->back()->with('error', 'Maaf, poin Anda tidak mencukupi untuk menukar reward.');

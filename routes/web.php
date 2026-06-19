@@ -51,19 +51,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/point-histories', [PointHistoryController::class, 'index'])->name('point_histories.index');
-    Route::get('/admin/transactions', [TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
-    Route::patch('/admin/transactions/{id}/update-status', [TransactionController::class, 'updateStatus'])->name('admin.transactions.update_status');
-
+    Route::get('/admin/orders', [TransactionController::class, 'adminDashboard'])->name('admin.orders.dashboard');
+    Route::post('/admin/orders/{id}/update-status', [TransactionController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     
+    // Route untuk Admin melihat riwayat poin user tertentu
+    Route::get('/admin/users/{id}/point-history', [PointHistoryController::class, 'adminUserHistory'])->name('admin.users.pointHistory');
+
     Route::get('/referral/claim', function () {
         return view('referrals.claim');
     })->name('referral.claim.form');    
     Route::post('/referral/claim', [ReferralController::class, 'processReferral'])->name('referral.claim');
 
 
-Route::get('/outlets', [App\Http\Controllers\MerchantController::class, 'outletsUser']);
-Route::get('/redeem', [App\Http\Controllers\RedemptionController::class, 'redeemUser']);
-Route::get('/offers', [App\Http\Controllers\VoucherController::class, 'offersUser']);
+    Route::get('/outlets', [App\Http\Controllers\MerchantController::class, 'outletsUser']);
+    Route::get('/redeem', [App\Http\Controllers\RedemptionController::class, 'redeemUser']);
+    Route::get('/offers', [App\Http\Controllers\VoucherController::class, 'offersUser']);
 
 
     Route::resource('merchants', MerchantController::class);
