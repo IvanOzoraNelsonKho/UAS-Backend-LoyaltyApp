@@ -12,7 +12,7 @@
         .btn { display: inline-block; padding: 8px 12px; background-color: #f2f2f2; border: 1px solid #000; text-decoration: none; color: #000; border-radius: 4px; font-size: 14px; }
     </style>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
 
     <h1>Daftar Review Loyalty App</h1>
 

@@ -3,7 +3,7 @@
 <head>
     <title>Daftar Promo</title>
 </head>
-<body style="background-color: rgb(192">
+<body style="background-color: rgb(192, 219, 247);">
     <h1>Daftar Promo Loyalty App</h1>
 
     <a href="{{ route('promotions.create') }}">
