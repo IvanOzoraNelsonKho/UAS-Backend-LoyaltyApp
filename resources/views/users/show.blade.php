@@ -42,6 +42,8 @@
     
     <a href="{{ route('transactions.create') }}"><button style="padding: 8px 12px; cursor: pointer;">🛒 Pesan Online</button></a>
     
+    <a href="{{ url('/rewards') }}"><button style="padding: 8px 12px; cursor: pointer;">🎁 Tukar Poin (Katalog)</button></a>
+    
     <a href="{{ route('point_histories.index') }}"><button style="padding: 8px 12px; cursor: pointer;">🪙 History Point</button></a>
     
     <a href="{{ route('transactions.index') }}"><button style="padding: 8px 12px; cursor: pointer;">📜 Riwayat Transaksi</button></a>

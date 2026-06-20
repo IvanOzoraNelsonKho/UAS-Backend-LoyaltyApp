@@ -84,6 +84,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
     Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
 
+    Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->middleware('auth');
+Route::post('/cart/tambah', [\App\Http\Controllers\CartController::class, 'store'])->middleware('auth');
+Route::post('/cart/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->middleware('auth');
+
 });
 
 
