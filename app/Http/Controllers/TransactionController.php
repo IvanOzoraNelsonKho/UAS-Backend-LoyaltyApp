@@ -13,10 +13,12 @@ use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
-    public function index()
+  public function index()
     {
+       
         $transactions = Transaction::where('user_id', Auth::id())->latest()->get();
-        return view('transactions.index', compact('transactions'));
+        $redemptions = \App\Models\Redemption::where('user_id', Auth::id())->latest()->get();
+        return view('transactions.index', compact('transactions', 'redemptions'));
     }
 
     public function create()

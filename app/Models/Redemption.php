@@ -9,7 +9,13 @@ class Redemption extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'reward_id', 'merchant_id', 'status'];
+    protected $fillable = [
+        'user_id', 
+        'reward_id', 
+        'merchant_id', 
+        'points_spent', 
+        'status'
+    ];
 
     public function user()
     {
