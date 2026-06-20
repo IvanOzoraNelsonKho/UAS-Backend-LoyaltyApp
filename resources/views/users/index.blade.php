@@ -8,15 +8,19 @@
     
     <a href="{{ route('users.create') }}"><button>Tambah User Baru</button></a>
     <a href="{{ route('admin.orders.dashboard') }}"><button>☕ LIHAT ANTREAN PESANAN ONLINE</button></a>
+    <a href="{{ route('tiers.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">👑 KELOLA TIER MEMBERSHIP</button></a>
+    <a href="{{ route('missions.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">🎯 KELOLA MISSION</button></a>
     <hr>
 
     @if(session('success'))
         <p style="color: green; font-weight: bold;">{{ session('success') }}</p>
     @endif
 
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left;">
-        <thead>
-            <tr style="background-color: #f2f2f2;">
+    <div style= "border : 2px solid #031344; padding: 20px; background-color: #f9f9f9; border-radius: 40px; margin: 0 auto">
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse; border-color: black">
+            <thead>
+            <tr style="background-color: #8ca7d6">
+                <div style= "font: 15px bold Georgia">
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -64,5 +68,6 @@
             @endforeach
         </tbody>
     </table>
+</div>
 </body>
 </html>

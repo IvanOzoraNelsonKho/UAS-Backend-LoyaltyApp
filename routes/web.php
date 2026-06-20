@@ -84,21 +84,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
     Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
 
-    Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->middleware('auth');
-Route::post('/cart/tambah', [\App\Http\Controllers\CartController::class, 'store'])->middleware('auth');
-Route::post('/cart/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->middleware('auth');
+    Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index']);
+    Route::post('/cart/tambah', [\App\Http\Controllers\CartController::class, 'store']);
+    Route::post('/cart/checkout', [\App\Http\Controllers\CartController::class, 'checkout']);
 
 });
-
 
 Route::resource('categories', CategoryController::class);
 Route::resource('rewards', RewardController::class);
 Route::resource('carts', CartController::class);
-
-Route::post('/cart/tambah', [CartController::class, 'store']);
-Route::post('/cart/checkout', [CartController::class, 'checkout']);
-
-
-Route::post('/cart/tambah', [CartController::class, 'store']);
-
-

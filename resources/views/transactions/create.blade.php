@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pesan Online - Chatime Loyalty App</title>
+    <title>Online Order Form - Chatime Loyalty App</title>
 </head>
-<body>
-    <h1>Buat Pesanan Baru / Checkout</h1>
+<body style="font-family: Arial, sans-serif, Georgia; margin: 20px; background-color: rgb(192, 219, 247)">
+    <div style ="border : 2px solid #031344; padding: 20px; background-color: #fff; border-radius: 40px; margin: 0 auto; max-width: 900px;">
+    <h1 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; text-align: center; font: bold 35px Georgia ;">Online Order</h1>
     @if(session('error'))
         <p style="color: red; font-weight: bold;">{{ session('error') }}</p>
     @endif
@@ -18,8 +19,11 @@
             </ul>
         </div>
     @endif
-    <a href="{{ route('users.show', auth()->id()) }}"><button>⬅️ Kembali ke Profile</button></a>  
-    <a href="{{ route('transactions.index') }}"><button>⬅️ Kembali ke Riwayat Pemesanan</button></a>
+
+    <div style= "text-align: center">
+    <a href="{{ route('users.show', auth()->id()) }}"><button style = "padding: 10px" >⬅️ Back to Profile</button></a>  
+    <a href="{{ route('transactions.index') }}"><button style = "padding: 10px" >⬅️ Back to Order History</button></a>
+    </div>
     <hr>
 
     @if(session('error'))
@@ -29,16 +33,16 @@
     <form action="{{ route('transactions.store') }}" method="POST">
         @csrf
 
-        <h3>1. Detail Penerima & Cabang</h3>
-        <label>Nama Penerima:</label><br>
-        <input type="text" name="recipient_name" value="{{ request('recipient_name') }}" required placeholder="Nama Lengkap"><br><br>
+        <h3>1. Recipient Detail & Outlet</h3>
+        <label>Name:</label><br>
+        <input class = "form-option" type="text" name="recipient_name" value="{{ request('recipient_name') }}" required placeholder="Enter your name"><br><br>
 
-        <label>Nomor Telepon:</label><br>
-        <input type="text" name="recipient_phone" value="{{ request('recipient_phone') }}" required placeholder="Contoh: 0812345678"><br><br>
+        <label>Phone Numer:</label><br>
+        <input class = "form-option" type="text" name="recipient_phone" value="{{ request('recipient_phone') }}" required placeholder="Enter your phone number"><br><br>
 
-        <label>Pilih Cabang Outlet (Merchant):</label><br>
-        <select name="merchant_id" required>
-            <option value="">-- Pilih Cabang --</option>
+        <label>Choose Outlet (Merchant):</label><br>
+        <select class = "form-option" name="merchant_id" required>
+            <option value="">-- Choose Outlet --</option>
             @foreach(\App\Models\Merchant::all() as $merchant)
                 <option value="{{ $merchant->id }}" {{ request('merchant_id') == $merchant->id ? 'selected' : '' }}>
                     {{ $merchant->name }} - {{ $merchant->location }}
@@ -46,23 +50,25 @@
             @endforeach
         </select>
 
-        <h3>2. Metode Konsumsi</h3>
-        <select name="order_type" required>
-            <option value="dine_in" {{ request('order_type') == 'dine_in' ? 'selected' : '' }}>Dine In (Makan di Tempat)</option>
-            <option value="take_away" {{ request('order_type') == 'take_away' ? 'selected' : '' }}>Take Away (Bawa Pulang)</option>
+        <h3>2. Order Type</h3>
+        <select class = "form-option" name="order_type" required>
+            <option value="">-- Dine In or Take Away --</option>
+            <option value="dine_in" {{ request('order_type') == 'dine_in' ? 'selected' : '' }}>Dine In</option>
+            <option value="take_away" {{ request('order_type') == 'take_away' ? 'selected' : '' }}>Take Away</option>
         </select>
 
-        <h3>3. Metode Pembayaran</h3>
-        <select name="payment_method" onchange="this.form.action='{{ route('transactions.create') }}'; this.form.method='GET'; this.form.submit();" required>
+        <h3>3. Payment Method</h3>
+        <select class = "form-option" name="payment_method" onchange="this.form.action='{{ route('transactions.create') }}'; this.form.method='GET'; this.form.submit();" required>
+            <option value="">-- Choose Payment Method --</option>
             <option value="qris" {{ request('payment_method') == 'qris' ? 'selected' : '' }}>QRIS</option>
-            <option value="cash" {{ request('payment_method') == 'cash' ? 'selected' : '' }}>Cash (Bayar di Kasir)</option>
+            <option value="cash" {{ request('payment_method') == 'cash' ? 'selected' : '' }}>Cash</option>
             <option value="transfer_bank" {{ request('payment_method') == 'transfer_bank' ? 'selected' : '' }}>Transfer Bank</option>
         </select>
 
         @if(request('payment_method') === 'transfer_bank')
             <div id="bank_options" style="margin-top: 10px;">
-                <label>Pilih Bank Transfer:</label>
-                <select name="bank_name">
+                <label>Virtual Account Transfer:</label>
+                <select class = "form-option" name="bank_name">
                     <option value="BCA" {{ request('bank_name') == 'BCA' ? 'selected' : '' }}>BCA</option>
                     <option value="BNI" {{ request('bank_name') == 'BNI' ? 'selected' : '' }}>BNI</option>
                     <option value="Mandiri" {{ request('bank_name') == 'Mandiri' ? 'selected' : '' }}>Mandiri</option>
@@ -71,9 +77,9 @@
             </div>
         @endif
 
-        <h3>🎁 Gunakan Voucher Promo (Opsional)</h3>
-        <select name="voucher_id">
-            <option value="">-- Tidak Menggunakan Voucher --</option>
+        <h4>🎁  Apply Voucher Promo (Optional)</h3>
+        <select class = "form-option" name="voucher_id">
+            <option value="">-- Choose Voucher --</option>
             @foreach(\App\Models\Voucher::where('is_used', false)->get() as $voucher)
                 <option value="{{ $voucher->id }}" {{ request('voucher_id') == $voucher->id ? 'selected' : '' }}>
                     {{ $voucher->code }} - Potongan Rp {{ number_format($voucher->discount_value, 0, ',', '.') }}
@@ -81,7 +87,7 @@
             @endforeach
         </select>
 
-        <h3>4. Pilih Menu (Item Pesanan)</h3>
+        <h3>4. Select Menu (Order Items)</h3>
         <div id="menu-container">
             @php
                 $jumlahItem = max(1, intval(request('jumlah_item', 1)));
@@ -89,11 +95,11 @@
 
             @for($i = 0; $i < $jumlahItem; $i++)
                 <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-                    <label><strong>Pilih Item {{ $i + 1 }}{{ $i > 0 ? ' (Opsional):' : ':' }}</strong></label><br>
+                    <label><strong>Select Item {{ $i + 1 }}{{ $i > 0 ? ' (Opsional):' : ':' }}</strong></label><br>
                     
                     <!-- harga disamain semua RP 30.000 -->
-                    <select name="items[{{ $i }}][reward_id]" {{ $i == 0 ? 'required' : '' }}>
-                        <option value="">-- Pilih Menu --</option>
+                    <select class = "form-option" name="items[{{ $i }}][reward_id]" {{ $i == 0 ? 'required' : '' }}>
+                        <option value="">-- Choose Menu --</option>
                         @foreach(\App\Models\Reward::all() as $reward)
                             <option value="{{ $reward->id }}">
                                 {{ $reward->name }} - Rp 30.000
@@ -103,35 +109,52 @@
                     <br><br>
 
                     <!-- update ukuran cup nambah RP 5.000 -->
-                    <label>Ukuran Cup:</label>
-                    <select name="items[{{ $i }}][size]" required>
+                    <label>Cup Size:</label><br>
+                    <select class = "form-option" name="items[{{ $i }}][size]" required>
+                        <option value="">-- Choose Cup Size --</option>
                         <option value="reguler">Reguler</option>
                         <option value="large">Large (+Rp 5.000)</option>
-                    </select>
+                    </select><br>
 
-                    <label>Ice Level:</label>
-                    <select name="items[{{ $i }}][ice_level]" required>
+                    <label>Ice Level:</label><br>
+                    <select class = "form-option" name="items[{{ $i }}][ice_level]" required>
+                        <option value="">-- Choose Ice Level --</option>
                         <option value="normal">Normal Ice</option>
                         <option value="less">Less Ice</option>
-                    </select>
+                    </select><br>
 
-                    <label>Sugar Level:</label>
-                    <select name="items[{{ $i }}][sugar_level]" required>
+                    <label>Sugar Level:</label><br>
+                    <select class = "form-option" name="items[{{ $i }}][sugar_level]" required>
+                        <option value="">-- Choose Sugar Level --</option>
                         <option value="normal">Normal Sugar</option>
                         <option value="less">Less Sugar</option>
-                    </select>
+                    </select><br>
                 </div>
             @endfor
         </div>
 
         <button type="submit" formaction="{{ route('transactions.create') }}" formmethod="GET" name="jumlah_item" value="{{ $jumlahItem + 1 }}" formnovalidate style="margin-bottom: 20px;">
-            + Tambah Menu Lain
+            + Add More Item
         </button>
 
         <br><hr>
         <button type="submit" style="padding: 10px 20px; background-color: green; color: white; font-weight: bold; cursor: pointer;">
-            KIRIM PESANAN & CHECKOUT
+            PLACE ORDER & CHECKOUT
         </button>
     </form>
+    </div>
+
+    <style>
+    .form-option {
+        width: 90%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        box-shadow: 3px 3px 3px rgb(190, 227, 243);
+    }    
+    </style>
 </body>
 </html>
