@@ -9,9 +9,30 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+  public function index()
     {
-        //
+        $user = auth()->user();
+        $keranjang = \App\Models\Cart::where('user_id', $user->id)->get();
+
+        $total_poin = 0;
+        $cart_items = []; 
+
+        foreach($keranjang as $item) {
+            $reward = \App\Models\Reward::find($item->reward_id);
+            if($reward) {
+                $subtotal = $reward->points_required * $item->quantity;
+                $total_poin = $total_poin + $subtotal;
+                
+                $cart_items[] = (object) [
+                    'nama_minuman' => $reward->name, // Asumsi kolom nama minuman di tabel rewards itu 'name'
+                    'poin_satuan' => $reward->points_required,
+                    'qty' => $item->quantity,
+                    'subtotal' => $subtotal
+                ];
+            }
+        }
+
+        return view('cart.index', compact('cart_items', 'total_poin', 'user'));
     }
 
     /**
@@ -90,7 +111,7 @@ class CartController extends Controller
         $keranjang = \App\Models\Cart::where('user_id', $id_bocah)->get();
         
         if($keranjang->count() == 0) {
-            return redirect()->back()->with('error', 'Keranjang lu kosong woi, mau nuker angin?!');
+            return redirect()->back()->with('error', 'Keranjang lu kosong woi!');
         }
         
         $total_poin = 0;
@@ -100,25 +121,36 @@ class CartController extends Controller
         }
         
         if($user->point_balance < $total_poin) {
-            return redirect()->back()->with('error', 'Poin lu miskin obos! Kaga cukup buat nuker ginian.');
+            return redirect()->back()->with('error', 'Poin lu miskin obos!');
         }
         
+        // 1. Potong Saldo Poin
         $user->point_balance = $user->point_balance - $total_poin;
         $user->save();
         
+        // 2. Bikin Struk Penukaran
         foreach($keranjang as $item) {
             $harga_minuman = \App\Models\Reward::find($item->reward_id)->points_required;
             
             \App\Models\Redemption::create([
                 'user_id' => $id_bocah,
                 'reward_id' => $item->reward_id,
-                'points_spent' => $harga_minuman * $item->quantity,
+                'points_spent' => $harga_minuman * $item->quantity, // Sekarang udah kaga bakal jadi 0 lagi!
                 'status' => 'success', 
             ]);
         }
+
+        // 3. INI TAMBAHANNYA: Nyatet di tabel History Point biar nongol di layar lu!
+        \App\Models\PointHistory::create([
+            'user_id' => $id_bocah,
+            'type' => 'out', // "out" artinya poin keluar/berkurang
+            'amount' => $total_poin,
+            'description' => 'Penukaran poin untuk ' . $keranjang->count() . ' item minuman'
+        ]);
         
+        // 4. Bersihin Keranjang
         \App\Models\Cart::where('user_id', $id_bocah)->delete();
 
-        return redirect()->back()->with('success', 'Asik! Berhasil nuker poin! Silakan ambil minuman lu!');
+        return redirect('/transactions')->with('success', 'Asik! Berhasil nuker poin! Silakan cek riwayat lu di bawah!');
     }
 }

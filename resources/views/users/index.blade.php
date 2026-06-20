@@ -11,6 +11,7 @@
     <a href="{{ route('tiers.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">👑 KELOLA TIER MEMBERSHIP</button></a>
     <a href="{{ route('missions.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">🎯 KELOLA MISSION</button></a>
     <hr>
+    <a href="{{ route('admin.rewards.index') }}"><button style="padding: 5px 10px; cursor: pointer; background-color: #f1c40f; border: 1px solid black; font-weight: bold;">🍹 KELOLA KATALOG MENU</button></a>
 
     @if(session('success'))
         <p style="color: green; font-weight: bold;">{{ session('success') }}</p>
