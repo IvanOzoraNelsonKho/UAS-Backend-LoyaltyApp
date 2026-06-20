@@ -25,7 +25,7 @@
                 <th>Total Pembayaran</th>
                 <th>Metode Bayar</th>
                 <th>Waktu Masuk</th>
-                <th>Aksi Kontrol Status</th>
+                <th>Update Status</th>
             </tr>
         </thead>
         <tbody>
