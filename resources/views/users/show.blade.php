@@ -67,6 +67,8 @@
             <a href="{{ route('point_histories.index') }}"><button style="padding: 8px 12px; cursor: pointer;">🪙 History Point</button></a>
             <a href="{{ route('transactions.index') }}"><button style="padding: 8px 12px; cursor: pointer;">📜 Riwayat Transaksi</button></a>
             <a href="{{ route('referral.claim') }}"><button style="padding: 8px 12px; cursor: pointer;">🎁 Klaim Kode Referral</button></a>
+            <a href="{{ url('/offers') }}"><button style="padding: 8px 12px; cursor: pointer;">🎟️ Daftar Voucher</button></a>
+            <a href="{{ url('/outlets') }}"><button style="padding: 8px 12px; cursor: pointer;">🏪 Lokasi Outlet</button></a>
             <br><br>
 
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">

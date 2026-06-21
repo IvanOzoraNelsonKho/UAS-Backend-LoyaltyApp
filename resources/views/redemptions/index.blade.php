@@ -2,7 +2,7 @@
 <head>
     <title>Daftar Redemption</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
     <h1>Daftar Redemption</h1>
 
     <a href="{{ route('merchants.index') }}">Tabel Merchant</a> | 

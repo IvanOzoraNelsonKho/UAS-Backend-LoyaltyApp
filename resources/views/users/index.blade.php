@@ -10,6 +10,9 @@
     <a href="{{ route('admin.orders.dashboard') }}"><button>☕ LIHAT ANTREAN PESANAN ONLINE</button></a>
     <a href="{{ route('tiers.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">👑 KELOLA TIER MEMBERSHIP</button></a>
     <a href="{{ route('missions.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">🎯 KELOLA MISSION</button></a>
+    <a href="{{ route('redemptions.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">🎁 KELOLA REDEMPTION</button></a>
+    <a href="{{ route('merchants.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">🏪 KELOLA MERCHANT</button></a>
+    <a href="{{ url('/vouchers') }}"><button style="background-color: #e9ecef; cursor: pointer;">🎟️ KELOLA VOUCHER</button></a>
     <hr>
     <a href="{{ route('admin.rewards.index') }}"><button style="padding: 5px 10px; cursor: pointer; background-color: #f1c40f; border: 1px solid black; font-weight: bold;">🍹 KELOLA KATALOG MENU</button></a>
 

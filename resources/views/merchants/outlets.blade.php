@@ -2,12 +2,12 @@
 <head>
     <title>Daftar Outlet</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
     <h1>Daftar Outlet</h1>
    
     <a href="/outlets">Daftar Outlet</a> | 
     <a href="/offers">Daftar Promo</a> | 
-    <a href="/redeem">Tukar Poin</a>
+   
     <br><br>
 
     <p>Kunjungi outlet terdekat di kota Anda untuk menukarkan hadiah:</p>
