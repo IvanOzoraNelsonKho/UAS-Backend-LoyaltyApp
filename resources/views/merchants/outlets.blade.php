@@ -38,7 +38,7 @@
     @endif
 
     <br><br>
-    <a href="{{ route('merchants.index') }}">Kembali ke Halaman Admin (Kelola Merchant)</a>
+   
 
 </body>
 </html>
