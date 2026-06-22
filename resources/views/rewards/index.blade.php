@@ -7,17 +7,22 @@
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         .grid-container { display: flex; gap: 20px; flex-wrap: wrap; }
-        .card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; text-align: center; }
+        .card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; text-align: center; background-color: white;}
         .btn { background-color: #007bff; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px; width: 100%;}
         .btn:hover { background-color: #0056b3; }
         .alert-success { color: green; margin-bottom: 15px; font-weight: bold;}
         .alert-error { color: red; margin-bottom: 15px; font-weight: bold;}
     </style>
 </head>
-<body>
-    <body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif;">
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif;">
 
     <h1>Tukar Poin dengan Minuman</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <a href="{{ url('/profile') }}">
+            <button class="btn" style="width: auto; background-color: #6c757d;">⬅️ Back to Profile</button>
+        </a>
+    </div>
 
     @if(session('success'))
         <div class="alert-success">{{ session('success') }}</div>
@@ -42,7 +47,5 @@
         @endforeach
     </div>
     
-    
-
 </body>
 </html>
