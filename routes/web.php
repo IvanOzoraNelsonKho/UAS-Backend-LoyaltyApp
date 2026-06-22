@@ -65,13 +65,13 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/outlets', [App\Http\Controllers\MerchantController::class, 'outletsUser']);
-    Route::get('/redeem', [App\Http\Controllers\RedemptionController::class, 'redeemUser']);
+   
     Route::get('/offers', [App\Http\Controllers\VoucherController::class, 'offersUser']);
 
 
     Route::resource('merchants', MerchantController::class);
     Route::resource('vouchers', VoucherController::class);
-    Route::resource('redemptions', RedemptionController::class);
+    Route::resource('redemptions', RedemptionController::class)->only(['index']);
 
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
     Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');

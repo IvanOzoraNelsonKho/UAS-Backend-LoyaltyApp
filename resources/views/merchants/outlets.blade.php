@@ -7,7 +7,7 @@
    
     <a href="/outlets">Daftar Outlet</a> | 
     <a href="/offers">Daftar Promo</a> | 
-    <a href="/redeem">Tukar Poin</a>
+   
     <br><br>
 
     <p>Kunjungi outlet terdekat di kota Anda untuk menukarkan hadiah:</p>
@@ -38,7 +38,7 @@
     @endif
 
     <br><br>
-    <a href="{{ route('merchants.index') }}">Kembali ke Halaman Admin (Kelola Merchant)</a>
+   
 
 </body>
 </html>
