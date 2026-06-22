@@ -20,6 +20,10 @@ class NotificationController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->back()->with('error', 'Akses ditolak!');
+        }
+        
         $request->validate([
             'user_id' => 'required|integer',
             'message' => 'required|string',
