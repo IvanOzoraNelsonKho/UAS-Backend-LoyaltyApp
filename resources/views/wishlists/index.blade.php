@@ -3,9 +3,12 @@
 <head>
     <title>Wishlist Saya</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
     <h1>Daftar Wishlist (Promo Incaran)</h1>
 
+    <a href="{{ route('users.show', auth()->id()) }}">
+        <button style = "padding: 10px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px;">⬅️ Back to Profile</button>
+    </a> 
     <a href="{{ route('promotions.index') }}">
         <button> <- Kembali ke Daftar Promo</button>
     </a>

@@ -3,7 +3,7 @@
 <head>
     <title>Tambah Promo Baru</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding: 20px;">
     <h1>Buat Promo Baru</h1>
     <form action="{{ route('promotions.store') }}" method="POST">
         @csrf

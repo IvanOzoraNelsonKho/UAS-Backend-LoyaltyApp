@@ -2,7 +2,7 @@
 <head>
     <title>Tambah Data Redemption</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding: 20px;">
     <h1>Tambah Data Penukaran</h1>
 
     <form action="{{ route('redemptions.store') }}" method="POST">

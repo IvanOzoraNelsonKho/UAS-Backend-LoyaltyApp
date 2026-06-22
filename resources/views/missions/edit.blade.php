@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Edit Misi</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; margin: 20px;">
     <h1>Edit Data Misi</h1>
     
     <form action="{{ route('missions.update', $mission->id) }}" method="POST">

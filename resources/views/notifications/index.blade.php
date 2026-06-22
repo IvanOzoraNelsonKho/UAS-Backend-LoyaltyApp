@@ -16,7 +16,7 @@
         .badge-danger { background-color: #f8d7da; color: #721c24; }
     </style>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
 
     <h1>Daftar Notifikasi Loyalty App</h1>
 

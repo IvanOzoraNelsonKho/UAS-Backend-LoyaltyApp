@@ -6,8 +6,8 @@
 <body style = "background-color: rgb(192, 219, 247); font-family: sans-serif, Georgia">
     <h1 style= "text-align: center; font: bold 35px Georgia">Point Transaction History</h1>
     <div style= "text-align:center">
-    <a href="{{ route('users.show', auth()->id()) }}"><button>⬅️ Back to Profile</button></a>  
-    <a href="{{ route('transactions.index') }}"><button>⬅️ Back to Order History</button></a>
+    <a href="{{ route('users.show', auth()->id()) }}"><button class="btn" style="color: white; padding: 10px; background-color: #6c757d;">⬅️ Back to Profile</button></a> 
+    <a href="{{ route('transactions.index') }}"><button style = "padding : 10px">⬅️ Back to Order History</button></a>
     </div>
     <hr>
 

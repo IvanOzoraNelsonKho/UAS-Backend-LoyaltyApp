@@ -6,7 +6,7 @@
 <body style = "background-color: rgb(192, 219, 247); font-family: sans-serif, Georgia">
     <h1 style= "text-align: center; font: bold 35px Georgia">Claim Referral Code</h1>
     <div style= "text-align:center">
-    <a href="{{ route('users.show', auth()->id()) }}"><button style="text-align: center; font: bold 15px Georgia">⬅️ Back to Profile</button></a>
+        <a href="{{ route('users.show', auth()->id()) }}"><button style="padding: 10px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px;">⬅️ Back to Profile</button></a> 
     </div>
     <hr>
 

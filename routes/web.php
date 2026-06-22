@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
     Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
+    Route::resource('wishlists', WishlistController::class);
 
     Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index']);
     Route::post('/cart/tambah', [\App\Http\Controllers\CartController::class, 'store']);

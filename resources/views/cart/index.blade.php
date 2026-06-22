@@ -11,9 +11,12 @@
         
         <h2 style="text-align: center; color: #031344;">🛒 Konfirmasi Penukaran Poin</h2>
         
-        <div style="text-align: center; margin-bottom: 20px;">
+        <div style="text-align: center; margin-bottom: 20px; display: flex; justify-content: center; gap: 10px;">
+            <a href="{{ route('users.show', auth()->id()) }}">
+                <button style="padding: 8px 15px; cursor: pointer; border-radius: 5px; border: none; background-color: #6c757d; color: white;">⬅️ Back to Profile</button>
+            </a>
             <a href="{{ url('/rewards') }}">
-                <button style="padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">⬅️ Balik ke Katalog</button>
+                <button style="padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">🍹 Balik ke Katalog</button>
             </a>
         </div>
         

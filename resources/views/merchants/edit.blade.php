@@ -2,7 +2,7 @@
 <head>
     <title>Edit Merchant</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding: 20px;">
     <h1>Edit Merchant</h1>
 
 <form action="{{ route('merchants.update', $merchant->id) }}" method="POST">

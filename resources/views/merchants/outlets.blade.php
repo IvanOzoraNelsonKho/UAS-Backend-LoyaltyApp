@@ -2,7 +2,11 @@
 <head>
     <title>Daftar Outlet</title>
 </head>
+<<<<<<< HEAD
 <body style="background-color: rgb(192, 219, 247);">
+=======
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding: 20px;">
+>>>>>>> 7e5b68390c010f333010030e719151da9d15cfa9
     <h1>Daftar Outlet</h1>
    
     <a href="/outlets">Daftar Outlet</a> | 
