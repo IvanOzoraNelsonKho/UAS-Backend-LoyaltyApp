@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Tier</title>
 </head>
-<body>
+<body style="font-family: Arial, sans-serif, Georgia; margin: 20px; background-color: rgb(192, 219, 247)">
     <h1>Edit Tier</h1>
 
     @if($errors->any())

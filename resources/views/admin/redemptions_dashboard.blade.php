@@ -14,7 +14,6 @@
             <a href="{{ route('admin.rewards.index') }}"><button style="padding: 10px 15px; cursor: pointer; font-weight: bold;">🍹 Kelola Katalog Menu</button></a>
             <a href="{{ url('/') }}"><button style="padding: 10px 15px; cursor: pointer;">🏠 Balik ke Home</button></a>
             
-            <!-- NIH TOMBOL LOGOUT NYA -->
             <form action="{{ route('logout') }}" method="POST" style="display: inline-block;">
                 @csrf
                 <button type="submit" style="padding: 10px 15px; cursor: pointer; background-color: #dc3545; color: white; border: none; font-weight: bold; border-radius: 3px;">🚪 Logout</button>
