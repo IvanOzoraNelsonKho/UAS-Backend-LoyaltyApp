@@ -9,11 +9,18 @@
     <div style="max-width: 750px; background: #ffffff; margin: 20px auto; padding: 35px; border-radius: 16px; border : 2px solid #031344">
         <h1 style="text-align: center; font: bold 35px Georgia; margin-top: 0; margin-bottom: 25px; color: #000000;">PROFILE</h1>
 
-        <div style="max-width: 750px; background: linear-gradient(135deg, #1e2c86 20%, #4d63f0 50%) ; margin: 20px auto; padding: 35px; border-radius: 16px;">
-
+        <div style="max-width: 750px; 
+            background-image: url('{{ asset('images/background.jpeg') }}'); 
+            background-size: cover; 
+            background-position: center; 
+            margin: 20px auto; 
+            padding: 35px; 
+            border-radius: 16px;">
+        
             <h3>Membership Status:</h3>
         
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 6px; margin-bottom: 20px;">
+                
                 <span style="display: inline-block;
                         background: #fff;
                         color: #800303;
@@ -29,13 +36,13 @@
                     padding: 6px 12px;
                     border-radius: 20px;
                     font-weight: bold;
-                    color: #fff;
+                    color: #000000;
                     letter-spacing: 0.5px">ID Member: #{{ str_pad($user->id, 5, '0', STR_PAD_LEFT) }}
                 </span>
             </div>
 
             <h3>Customer Name:</h3>
-            <h2 style="font-size: 24px; font-weight: 700; font-family: Georgia; color: #fff; margin-top: 4px; margin-bottom: 20px;">{{ $user->name }}</h2>
+            <h2 style="font-size: 24px; font-weight: 700; font-family: Georgia; color: #000000; margin-top: 4px; margin-bottom: 20px;">{{ $user->name }}</h2>
             
             <h3>Available Balance:</h3>
             <p style="margin-top: 6px;
@@ -45,7 +52,7 @@
                     border-radius: 8px;
                     display: inline-flex;
                     align-items: center;
-                    color: #fff;
+                    color: #000000;
                     font-weight: bold;">
                     💰 {{ number_format($user->point_balance, 0, ',', '.') }} Pts
             </p>
@@ -79,12 +86,13 @@
 
 <style>
     h3 { 
-        font-size: 12px; 
+        font-size: 12px;
         text-transform: uppercase; 
         letter-spacing: 1px; 
         color: rgba(255, 255, 255, 0.75);
         margin-top: 15px;
         margin-bottom: 0;
+        color: black;
     }
 </style>
 </html>

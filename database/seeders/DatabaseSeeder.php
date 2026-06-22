@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
        
-     // masukin kategori dasarnya dulu
+        // masukin kategori dasarnya dulu
         \App\Models\Category::create(['name' => 'Minuman']);
         \App\Models\Category::create(['name' => 'Snack']);
 
@@ -77,15 +77,12 @@ class DatabaseSeeder extends Seeder
             ['name' => 'grass jelly with milk', 'points_required' => 25000, 'category_id' => 1],
             ['name' => 'Brown Sugar Oatmilk', 'points_required' => 32000, 'category_id' => 1],
             ['name' => 'Choco Chip Cookies', 'points_required' => 15000, 'category_id' => 2],
-            ['name' => 'Chocolate Mousse', 'points_required' => 20000, 'category_id' => 2], // ini gua pindahin ke mari, temen lu ngaco bikinnya sbg kategori
+            ['name' => 'Chocolate Mousse', 'points_required' => 20000, 'category_id' => 2], 
         ];
 
-        // masukin ke database, 1 KALI AJA JANGAN DOBEL BEGO
         foreach($menus as $m){
             \App\Models\Reward::create($m);
         }
 
-        // bawaan laravel diemin aja kaga usah diutak atik
-        // User::factory(10)->create();
     }
 }
