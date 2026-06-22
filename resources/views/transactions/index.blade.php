@@ -6,7 +6,8 @@
 <body style = "background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding-bottom: 50px;">
     <h1 style = "border-bottom: 2px solid #333; padding-bottom: 5px; text-align: center; font: bold 35px Georgia ;">Order History</h1>
     <div style="text-align:center">
-        <a href="{{ route('users.show', auth()->id()) }}"><button style = "padding: 10px; cursor: pointer;">⬅️ Back to Profile</button></a> 
+        <!-- TOMBOL BACK UDAH ADA DARI AWAL BANGSAT -->
+        <a href="{{ url('/profile') }}"><button style = "padding: 10px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px;">⬅️ Back to Profile</button></a> 
         <a href="{{ route('transactions.create') }}"><button style = "padding: 10px; cursor: pointer;">🛒 + Online Order</button></a> 
         <a href="{{ url('/rewards') }}"><button style = "padding: 10px; cursor: pointer;">🎁 Tukar Poin Lagi</button></a> 
         <a href="{{ route('point_histories.index') }}"><button style = "padding: 10px; cursor: pointer;">💎 Point History</button></a>
@@ -44,17 +45,17 @@
                             @foreach($tx->details as $detail)
                                 <li style="margin-bottom: 5px;">
                                     <strong>{{ $detail->reward->name ?? 'Menu' }}</strong> ({{ $detail->quantity }}x)<br>
-                                    <small style="color: #555;">Size: {{ ucfirst($detail->size) }} | Ice: {{ ucfirst($detail->ice_level) }} | Sugar: {{ ucfirst($detail->sugar_level) }}</small>
+                                    <small style="color: #555;">Size: {{ ucfirst($detail->size ?? 'Normal') }} | Ice: {{ ucfirst($detail->ice_level ?? 'Normal') }} | Sugar: {{ ucfirst($detail->sugar_level ?? 'Normal') }}</small>
                                 </li>
                             @endforeach
                         </ul>
                     </td>
                     <td style="text-align:right;">Rp {{ number_format($tx->total_price, 0, ',', '.') }}</td>
-                    <td style="text-align:center;"><strong style="color: blue;">+{{ $tx->details->count() * 20 }} Poin</strong></td>
-                    <td style="text-align:center;">{{ strtoupper($tx->payment_method) }}</td>
+                    <td style="text-align:center;"><strong style="color: blue;">+{{ $tx->points_earned ?? ($tx->details->count() * 20) }} Poin</strong></td>
+                    <td style="text-align:center;">{{ strtoupper($tx->payment_method ?? 'CASH') }}</td>
                     <td style="text-align:center;">
                         <span style="background-color: #ffeeba; color: #856404; padding: 4px 8px; border-radius: 4px; font-weight: bold;">
-                            ⏳ {{ $tx->status }}
+                            ⏳ {{ $tx->status ?? 'Success' }}
                         </span>
                     </td>
                     <td style="text-align:center;">{{ $tx->created_at->format('d M Y, H:i') }}</td>
@@ -85,9 +86,10 @@
                 <tr>
                     <td style="text-align:center;"><strong>RDM-{{ str_pad($rdm->id, 4, '0', STR_PAD_LEFT) }}</strong></td>
                     <td>
+                        <!-- BARBAR TAPI JALAN -->
                         <strong>{{ \App\Models\Reward::find($rdm->reward_id)->name ?? 'Minuman Tidak Diketahui' }}</strong>
                     </td>
-                    <td style="text-align:center;"><strong style="color: red;">-{{ $rdm->points_spent }} Pts</strong></td>
+                    <td style="text-align:center;"><strong style="color: red;">-{{ $rdm->points_spent ?? \App\Models\Reward::find($rdm->reward_id)->points_required }} Pts</strong></td>
                     <td style="text-align:center;">
                         @if($rdm->status == 'success')
                             <span style="background-color: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px; font-weight: bold;">✅ Sukses</span>
