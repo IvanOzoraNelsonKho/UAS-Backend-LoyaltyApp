@@ -15,7 +15,7 @@
         .back-lonk { display: inline-block; margin-top: 15px; text-decoration: none; color: #007BFF; }
     </style> 
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
 
     <h1>Tambah Review Baru</h1>
 

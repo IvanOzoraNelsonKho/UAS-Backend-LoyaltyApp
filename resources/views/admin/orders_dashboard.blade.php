@@ -3,7 +3,7 @@
 <head>
     <title>Dashboard Admin - Kelola Pesanan</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding: 20px;">
     <h1>☕ Dashboard Admin - Antrean Pesanan Masuk</h1>
     <a href="{{ route('users.index') }}"><button>⬅️ Kembali ke Kelola User</button></a>
     <hr>

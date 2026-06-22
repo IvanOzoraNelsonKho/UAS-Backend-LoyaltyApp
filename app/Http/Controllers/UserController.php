@@ -115,10 +115,13 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        // Mengambil data user ke-1 beserta relasi tier membership-nya
-        $user = User::with('tier')->findOrFail($id);
-    
-        // Mengembalikan ke file view show.blade.php
-        return view('users.show', compact('user'));
+        $user = User::findOrFail($id);
+
+        if (auth()->id() == $user->id) {
+            return redirect()->back()->with('error', 'You cannot delete your own admin account from this panel!');
+        }
+
+        $user->delete();
+        return redirect()->route('users.index')->with('success', 'User account has been permanently deleted from the system.');
     }
 }

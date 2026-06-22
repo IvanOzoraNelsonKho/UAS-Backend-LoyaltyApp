@@ -3,7 +3,7 @@
 <head>
     <title>Admin - Riwayat Poin User</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding: 20px;">
     <h1>💎 Riwayat Aktivitas Poin: {{ $user->name }}</h1>
     <p>Email User: {{ $user->email }}</p>
     <p>Total Saldo Poin Saat Ini: <span style="color: blue; font-weight: bold;">{{ number_format($user->point_balance) }} Poin</span></p>

@@ -2,7 +2,7 @@
 <head>
     <title>Edit Data Redemption</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding: 20px;">
     <h1>Edit Data Penukaran</h1>
 
     <form action="{{ route('redemptions.update', $redemption->id) }}" method="POST">

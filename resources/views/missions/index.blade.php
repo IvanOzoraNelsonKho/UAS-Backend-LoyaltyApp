@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Misi</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; margin: 20px;">
 
     @if(session('success'))
         <p style="color: green;"><b>{{ session('success') }}</b></p>
