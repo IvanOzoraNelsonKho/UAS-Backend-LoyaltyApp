@@ -54,16 +54,16 @@ class TransactionController extends Controller
             $totalItemsPurchased = 0;
             $detailItems = [];
 
-            // Hitung total harga belanja sebelum diskon
+            
             foreach ($request->items as $item) {
                 if (empty($item['reward_id'])) {
                     continue;
                 }
 
-                // Harga pokok flat Rp 30.000
+               
                 $basePrice = 30000;
                 
-                // Jika berukuran Large, harga ditambah Rp 5.000
+               
                 $addSizePrice = ($item['size'] === 'large') ? 5000 : 0;
                 
                 $pricePerUnit = $basePrice + $addSizePrice;
@@ -86,7 +86,7 @@ class TransactionController extends Controller
                 return redirect()->back()->with('error', 'Anda harus memilih minimal satu menu.');
             }
 
-            // Cek apakah ada voucher yang dipilih dan hitung diskon
+           
             $discount = 0;
             if ($request->filled('voucher_id')) {
                 $voucher = \App\Models\Voucher::find($request->voucher_id);
@@ -95,16 +95,16 @@ class TransactionController extends Controller
                 }
             }
 
-            // Potong total harga transaksi (tidak boleh minus di bawah 0)
+           
             $totalPriceFinal = max(0, $totalPrice - $discount);
 
-            // Hitung bonus poin kelipatan (1 menu = 20 poin)
+         
             $earnedPoints = $totalItemsPurchased * 20;
 
-            // Generate No Nota / Order ID unik
+           
             $orderId = 'ORD-' . strtoupper(Str::random(8));
 
-            // Simpan ke tabel utama 'transactions'
+           
             $transaction = Transaction::create([
                 'user_id' => $user->id,
                 'merchant_id' => $request->merchant_id,
@@ -118,17 +118,16 @@ class TransactionController extends Controller
                 'status' => 'Pesanan sedang diproses', 
             ]);
 
-            // Simpan ke tabel detail 'transaction_details'
+           
             foreach ($detailItems as $detail) {
                 $detail['transaction_id'] = $transaction->id;
                 TransactionDetail::create($detail);
             }
 
-            // Mutasi penambahan poin user
             $user->point_balance += $earnedPoints;
             $user->save();
 
-            // Catat history poin masuk
+           
             PointHistory::create([
                 'user_id' => $user->id,
                 'type' => 'in',
@@ -149,7 +148,7 @@ class TransactionController extends Controller
 
     public function adminDashboard()
     {
-        // Ambil semua transaksi dari database dan urutkan dari yang paling baru
+        
         $transactions = Transaction::with(['user', 'merchant', 'details.reward'])->latest()->get();
         
         return view('admin.orders_dashboard', compact('transactions'));

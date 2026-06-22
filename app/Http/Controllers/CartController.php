@@ -48,7 +48,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        // validasi lemparan dari form frontend si Joseph biar kaga diakalin
+       
         $request->validate([
             'reward_id' => 'required'
         ]);
@@ -123,12 +123,11 @@ class CartController extends Controller
         if($user->point_balance < $total_poin) {
             return redirect()->back()->with('error', 'Poin lu miskin obos!');
         }
-        
-        // 1. Potong Saldo Poin
+      
         $user->point_balance = $user->point_balance - $total_poin;
         $user->save();
         
-        // 2. Bikin Struk Penukaran
+        
         foreach($keranjang as $item) {
             $harga_minuman = \App\Models\Reward::find($item->reward_id)->points_required;
             
@@ -140,15 +139,15 @@ class CartController extends Controller
             ]);
         }
 
-        // 3. INI TAMBAHANNYA: Nyatet di tabel History Point biar nongol di layar lu!
+       
         \App\Models\PointHistory::create([
             'user_id' => $id_bocah,
-            'type' => 'out', // "out" artinya poin keluar/berkurang
+            'type' => 'out', 
             'amount' => $total_poin,
             'description' => 'Penukaran poin untuk ' . $keranjang->count() . ' item minuman'
         ]);
         
-        // 4. Bersihin Keranjang
+      
         \App\Models\Cart::where('user_id', $id_bocah)->delete();
 
         return redirect('/transactions')->with('success', 'Asik! Berhasil nuker poin! Silakan cek riwayat lu di bawah!');

@@ -101,15 +101,15 @@ Route::resource('carts', CartController::class);
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
     
-    // --- RUTE ADMIN PESANAN DUIT (Punya Temen Lu) ---
+   
     Route::get('/admin/orders', [\App\Http\Controllers\TransactionController::class, 'adminDashboard'])->name('admin.orders.dashboard');
     Route::post('/admin/orders/{id}/update-status', [\App\Http\Controllers\TransactionController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     
-    // --- RUTE ADMIN NUKER POIN (Punya Lu) ---
+    
     Route::get('/admin/redemptions', [\App\Http\Controllers\RedemptionController::class, 'adminIndex'])->name('admin.redemptions.index');
     Route::post('/admin/redemptions/{id}/update-status', [\App\Http\Controllers\RedemptionController::class, 'adminUpdateStatus'])->name('admin.redemptions.updateStatus');
 
-    // --- RUTE ADMIN KELOLA KATALOG MENU ---
+   
     Route::get('/admin/rewards', [\App\Http\Controllers\RewardController::class, 'adminIndex'])->name('admin.rewards.index');
     Route::post('/admin/rewards/tambah', [\App\Http\Controllers\RewardController::class, 'adminStore'])->name('admin.rewards.store');
     Route::post('/admin/rewards/{id}/hapus', [\App\Http\Controllers\RewardController::class, 'adminDestroy'])->name('admin.rewards.destroy');

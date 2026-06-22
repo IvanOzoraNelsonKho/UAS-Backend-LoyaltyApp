@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
             MerchantSeeder::class,
             VoucherSeeder::class,
         ]);
-        // Buat Tier
+       
         $silver = \App\Models\Tier::create(['name' => 'Silver Member', 'min_points' => 0]);
 
-        // 1. Buat User sebagai CUSTOMER (is_admin = false)
+       
         \App\Models\User::create([
             'name' => 'Aditya Customer',
             'email' => 'customer@example.com',
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => false, // Customer biasa
         ]);
     
-        // 2. Buat User sebagai ADMIN (is_admin = true)
+      
         \App\Models\User::create([
             'name' => 'Ilo Admin',
             'email' => 'admin@example.com',
@@ -46,7 +46,6 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true, // Akses Admin
         ]);
     
-        // Buat Sampel Misi Aktif
         \App\Models\Mission::create([
             'title' => 'Misi Pertama Chatime',
             'description' => 'Beli minuman apa saja lewat online order',
@@ -67,11 +66,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
        
-        // masukin kategori dasarnya dulu
+       
         \App\Models\Category::create(['name' => 'Minuman']);
         \App\Models\Category::create(['name' => 'Snack']);
 
-        // list menu, id 1 buat minuman, 2 buat snack
+       
         $menus = [
             ['name' => 'Hazelnut Chocolate Milk Tea', 'points_required' => 28000, 'category_id' => 1],
             ['name' => 'grass jelly with milk', 'points_required' => 25000, 'category_id' => 1],

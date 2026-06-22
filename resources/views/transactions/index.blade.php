@@ -6,7 +6,7 @@
 <body style = "background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; padding-bottom: 50px;">
     <h1 style = "border-bottom: 2px solid #333; padding-bottom: 5px; text-align: center; font: bold 35px Georgia ;">Order History</h1>
     <div style="text-align:center">
-        <!-- TOMBOL BACK UDAH ADA DARI AWAL BANGSAT -->
+       
        <a href="{{ route('users.show', auth()->id()) }}"><button style = "padding: 10px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px;">⬅️ Back to Profile</button></a> 
         <a href="{{ route('transactions.create') }}"><button style = "padding: 10px; cursor: pointer;">🛒 + Online Order</button></a> 
         <a href="{{ url('/rewards') }}"><button style = "padding: 10px; cursor: pointer;">🎁 Tukar Poin Lagi</button></a> 
@@ -86,7 +86,7 @@
                 <tr>
                     <td style="text-align:center;"><strong>RDM-{{ str_pad($rdm->id, 4, '0', STR_PAD_LEFT) }}</strong></td>
                     <td>
-                        <!-- BARBAR TAPI JALAN -->
+                      
                         <strong>{{ \App\Models\Reward::find($rdm->reward_id)->name ?? 'Minuman Tidak Diketahui' }}</strong>
                     </td>
                     <td style="text-align:center;"><strong style="color: red;">-{{ $rdm->points_spent ?? \App\Models\Reward::find($rdm->reward_id)->points_required }} Pts</strong></td>

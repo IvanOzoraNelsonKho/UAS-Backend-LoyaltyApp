@@ -12,7 +12,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        // masukin kategori default sesuai konsep pesen online
+       
         $categories = [
             ['name' => 'Minuman Dingin'],
             ['name' => 'Kopi Susu'],

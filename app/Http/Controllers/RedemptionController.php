@@ -32,6 +32,6 @@ class RedemptionController extends Controller
  
     public function redeemUser()
     {
-        return view('redemptions.index'); // Sesuaikan kalo ada
+        return view('redemptions.index'); 
     }
 }
