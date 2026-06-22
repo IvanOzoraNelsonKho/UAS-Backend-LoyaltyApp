@@ -6,9 +6,11 @@
 <body style="background-color: rgb(192, 219, 247);">
     <h1>Daftar Promo Loyalty App</h1>
 
-    <a href="{{ route('promotions.create') }}">
-        <button>+ Tambah Promo Baru</button>
-    </a>
+    @if(auth()->check() && auth()->user()->email == 'admin@loyalty.com')
+        <a href="{{ route('promotions.create') }}">
+           <button>+ Tambah Promo Baru</button>
+        </a>
+    @endif
     <br><br>
 
     <table border="1" cellpadding="10" cellspacing="0">
