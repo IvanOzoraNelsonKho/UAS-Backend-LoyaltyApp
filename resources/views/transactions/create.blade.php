@@ -20,9 +20,9 @@
         </div>
     @endif
 
-    <div style= "text-align: center">
-    <a href="{{ route('users.show', auth()->id()) }}"><button style = "padding: 10px" >⬅️ Back to Profile</button></a>  
-    <a href="{{ route('transactions.index') }}"><button style = "padding: 10px" >⬅️ Back to Order History</button></a>
+    <div style= "text-align: center;">
+        <a href="{{ route('users.show', auth()->id()) }}"><button class="btn" style="color: white; padding: 10px; background-color: #6c757d;">⬅️ Back to Profile</button></a> 
+        <a href="{{ route('transactions.index') }}"><button style = "padding: 10px" >⬅️ Back to Order History</button></a>
     </div>
     <hr>
 

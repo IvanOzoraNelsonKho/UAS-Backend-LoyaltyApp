@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Daftar Tier</title>
 </head>
-<body>
+<body style="font-family: Arial, sans-serif, Georgia; margin: 20px; background-color: rgb(192, 219, 247)">
 
     <h1>Tingkatan Membership Chatime</h1>
     <p>Kumpulkan poin transaksi sebanyak-banyaknya untuk menaikkan level tokomu!</p>

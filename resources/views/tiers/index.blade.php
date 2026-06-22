@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Tiers</title>
 </head>
-<body>
+<body style="font-family: Arial, sans-serif, Georgia; margin: 20px; background-color: rgb(192, 219, 247)">
     <h1>Dashboard Admin: Kelola Tiers</h1>
     @if(session('success'))
         <p style="color: green;"><b>{{ session('success') }}</b></p>
