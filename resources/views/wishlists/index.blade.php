@@ -3,7 +3,7 @@
 <head>
     <title>Wishlist Saya</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
     <h1>Daftar Wishlist (Promo Incaran)</h1>
 
     <a href="{{ route('promotions.index') }}">
