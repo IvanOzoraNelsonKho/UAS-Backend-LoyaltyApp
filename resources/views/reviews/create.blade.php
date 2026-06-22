@@ -29,7 +29,12 @@
 
         <div>
             <label for="reward_id">Reward ID:</label>
-            <input type="number" name="reward_id" id="reward_id" required>
+            <select name="reward_id" id="reward_id" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+                <option value="">-- Pilih Promo --</option>
+                @foreach($promotions as $promo)
+                    <option value="{{ $promo->id }}">{{ $promo->title }}</option>
+                @endforeach
+            </select>           
         </div>
 
         <div>

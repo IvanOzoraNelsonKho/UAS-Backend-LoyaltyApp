@@ -15,7 +15,8 @@ class ReviewController extends Controller
 
     public function create()
     {
-        return view('reviews.create');
+        $promotions = \App\Models\Promotion::all();
+        return view('reviews.create', compact('promotions'));
     }
 
     public function store(Request $request)
