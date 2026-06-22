@@ -11,8 +11,13 @@
         <h3 style="text-align: center; color: #666; margin-top: 0; font-size: 16px;">Kelola Menu Minuman</h3>
         
         <div style="text-align: center; margin-bottom: 20px;">
-            <a href="{{ route('admin.redemptions.index') }}"><button style="padding: 10px 15px; cursor: pointer;">📋 Kelola Penukaran User</button></a>
-            <a href="{{ url('/') }}"><button style="padding: 10px 15px; cursor: pointer;">🏠 Balik ke Home</button></a>
+            <a href="{{ route('admin.redemptions.index') }}"><button style="padding: 10px 15px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px;">📋 Kelola Penukaran User</button></a>
+            <a href="{{ url('/') }}"><button style="padding: 10px 15px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 4px;">🏠 Balik ke Home</button></a>
+            
+            <form action="{{ route('logout') }}" method="POST" style="display: inline-block;">
+                @csrf
+                <button type="submit" style="padding: 10px 15px; cursor: pointer; background-color: #dc3545; color: white; border: none; font-weight: bold; border-radius: 4px;">🚪 Logout</button>
+            </form>
         </div>
         
         <hr style="border: 1px solid #031344; margin-bottom: 25px;">
@@ -23,7 +28,7 @@
             </div>
         @endif
 
-        <!-- Form nambah menu -->
+        
         <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; border: 1px dashed #031344; margin-bottom: 30px;">
             <h3 style="margin-top: 0; color: #031344;">➕ Tambah Menu Baru</h3>
             <form action="{{ route('admin.rewards.store') }}" method="POST" style="display: flex; gap: 10px;">
@@ -34,7 +39,6 @@
             </form>
         </div>
 
-        <!-- Tabel daftarnya -->
         <table border="1" cellpadding="12" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse; border-color: black; background-color: white;">
             <thead>
                 <tr style="background-color: #8ca7d6; text-align: center;">
