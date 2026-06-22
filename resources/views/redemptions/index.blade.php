@@ -23,7 +23,7 @@
             <th style="width: 120px;">Reward</th>
             <th style="width: 120px;">Outlet</th>
             <th style="width: 120px;">Status</th>
-            <th style="width: 120px;">Aksi</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -34,14 +34,6 @@
             <td>{{ $redemption->reward->name ?? 'Tanpa Hadiah' }}</td>
             <td>{{ $redemption->merchant->name ?? 'Tanpa Cabang' }}</td>
             <td>{{ ucfirst($redemption->status) }}</td>
-            <td style="text-align: center;">
-                <a href="{{ route('redemptions.edit', $redemption) }}">Ubah</a> |
-                <form action="{{ route('redemptions.destroy', $redemption) }}" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" onclick="return confirm('Hapus data penukaran ini?')">Hapus</button>
-                </form>
-            </td>
         </tr>
         @endforeach
     </tbody>
