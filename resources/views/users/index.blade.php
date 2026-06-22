@@ -16,6 +16,9 @@
         <a href="{{ route('tiers.index') }}"><button style="background-color: #e9ecef; cursor: pointer; padding: 10px 15px; font-weight: bold; border-radius: 6px;">👑 Kelola Tier Membership</button></a>
         <a href="{{ route('missions.index') }}"><button style="background-color: #e9ecef; cursor: pointer; padding: 10px 15px; font-weight: bold; border-radius: 6px;">🎯 Kelola Misi</button></a>
         <a href="{{ route('admin.rewards.index') }}"><button style="background-color: #e9ecef; cursor: pointer; padding: 10px 15px; font-weight: bold; border-radius: 6px;">🍹 Kelola Katalog Menu</button></a>
+        <a href="{{ route('redemptions.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">🎁 KELOLA REDEMPTION</button></a>
+        <a href="{{ route('merchants.index') }}"><button style="background-color: #e9ecef; cursor: pointer;">🏪 KELOLA MERCHANT</button></a>
+        <a href="{{ url('/vouchers') }}"><button style="background-color: #e9ecef; cursor: pointer;">🎟️ KELOLA VOUCHER</button></a>
     </div>
 
     @if(session('success'))
