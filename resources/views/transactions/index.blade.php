@@ -7,7 +7,7 @@
     <h1 style = "border-bottom: 2px solid #333; padding-bottom: 5px; text-align: center; font: bold 35px Georgia ;">Order History</h1>
     <div style="text-align:center">
         <!-- TOMBOL BACK UDAH ADA DARI AWAL BANGSAT -->
-        <a href="{{ url('/profile') }}"><button style = "padding: 10px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px;">⬅️ Back to Profile</button></a> 
+       <a href="{{ route('users.show', auth()->id()) }}"><button style = "padding: 10px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px;">⬅️ Back to Profile</button></a> 
         <a href="{{ route('transactions.create') }}"><button style = "padding: 10px; cursor: pointer;">🛒 + Online Order</button></a> 
         <a href="{{ url('/rewards') }}"><button style = "padding: 10px; cursor: pointer;">🎁 Tukar Poin Lagi</button></a> 
         <a href="{{ route('point_histories.index') }}"><button style = "padding: 10px; cursor: pointer;">💎 Point History</button></a>
