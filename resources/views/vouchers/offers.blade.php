@@ -2,12 +2,12 @@
 <head>
     <title>Kupon Promo</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247);">
     <h1>Daftar Kupon Promo</h1>
    
     <a href="/outlets">Daftar Outlet</a> | 
     <a href="/offers">Daftar Promo</a> | 
-    <a href="/redeem">Tukar Poin</a>
+    
     <br><br>
 
     <p>Gunakan kode promo di bawah ini saat memesan menu untuk mendapatkan diskon!</p>
