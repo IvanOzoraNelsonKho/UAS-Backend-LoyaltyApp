@@ -20,18 +20,13 @@ class NotificationController extends Controller
 
     public function store(Request $request)
     {
-        if (auth()->user()->role !== 'admin') {
-            return redirect()->back()->with('error', 'Akses ditolak!');
-        }
-        
-        $request->validate([
-            'user_id' => 'required|integer',
-            'message' => 'required|string',
-            'is_read' => 'required|boolean',
+        Notification::create([
+            'user_id' => $request->user_id,
+            'message' => $request->message,
+            'is_read' => $request->is_read,
         ]);
 
-        Notification::create($request->all());
-        
-        return redirect()->route('notifications.index');
-    }
+         return redirect()->route('notifications.index');
+    } 
+    
 }

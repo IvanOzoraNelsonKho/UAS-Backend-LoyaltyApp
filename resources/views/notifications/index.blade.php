@@ -17,12 +17,10 @@
     </style>
 </head>
 <body style="background-color: rgb(192, 219, 247);">
-
+    
     <h1>Daftar Notifikasi Loyalty App</h1>
 
-    @if(auth()->user()->role === 'admin')
-        <a href="{{ route('notifications.create') }}" class="btn">+ Tambah Notifikasi Baru</a>
-    @endif
+       <a href="{{ route('notifications.create') }}" class="btn">+ Tambah Notifikasi Baru</a>
 
     <table>
         <thead>
