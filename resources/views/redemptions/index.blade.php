@@ -10,8 +10,7 @@
     <a href="{{ route('redemptions.index') }}">Tabel Redemption</a>
     <br><br>
 
-<a href="{{ route('redemptions.create') }}">Tambah Data Penukaran</a>
-<br><br>
+<br>
 
 @if ($redemptions->isEmpty())
     <p>Belum ada data penukaran yang tersimpan</p>

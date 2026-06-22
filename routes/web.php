@@ -71,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('merchants', MerchantController::class);
     Route::resource('vouchers', VoucherController::class);
-    Route::resource('redemptions', RedemptionController::class);
+    Route::resource('redemptions', RedemptionController::class)->except(['create']);
 
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
     Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
