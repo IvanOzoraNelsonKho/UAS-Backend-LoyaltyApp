@@ -14,12 +14,12 @@
         .alert-error { color: red; margin-bottom: 15px; font-weight: bold;}
     </style>
 </head>
-<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif;">
+<body style="background-color: rgb(192, 219, 247);">
 
     <h1>Tukar Poin dengan Minuman</h1>
     
     <div style="margin-bottom: 20px;">
-        <a href="{{ url('/profile') }}">
+        <a href="{{ route('users.show', auth()->id()) }}">
             <button class="btn" style="width: auto; background-color: #6c757d;">⬅️ Back to Profile</button>
         </a>
     </div>

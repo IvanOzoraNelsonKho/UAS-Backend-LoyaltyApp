@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Tambah Misi Baru</title>
 </head>
-<body>
+<body style="background-color: rgb(192, 219, 247); font-family: Georgia, Arial, sans-serif; margin: 20px;">
     <h1>Tambah Misi Baru</h1>
     
     <form action="{{ route('missions.store') }}" method="POST">
