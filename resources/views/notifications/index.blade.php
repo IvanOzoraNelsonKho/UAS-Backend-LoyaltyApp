@@ -20,7 +20,9 @@
 
     <h1>Daftar Notifikasi Loyalty App</h1>
 
-    <a href="{{ route('notifications.create') }}" class="btn">+ Tambah Notifikasi Baru</a>
+    @if(auth()->user()->role === 'admin')
+        <a href="{{ route('notifications.create') }}" class="btn">+ Tambah Notifikasi Baru</a>
+    @endif
 
     <table>
         <thead>
