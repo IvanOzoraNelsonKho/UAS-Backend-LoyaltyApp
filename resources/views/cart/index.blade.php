@@ -50,6 +50,7 @@
                     <p style="color: green; font-weight: bold; text-align: center;">✅ Asik! Saldo poin lu cukup buat nuker ini semua.</p>
                     <form action="{{ url('/cart/checkout') }}" method="POST" style="text-align: center;">
                         @csrf
+                        <input type="hidden" name="merchant_id" value="1">
                         <button type="submit" style="padding: 12px 24px; background-color: #28a745; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(40,167,69,0.3);">
                             🚀 KONFIRMASI & POTONG POIN SEKARANG!
                         </button>

@@ -104,11 +104,15 @@ class CartController extends Controller
         //
     }
     
-    public function checkout()
+    public function checkout(Request $request)
     {
         $user = auth()->user();
         $id_bocah = $user->id;
         $keranjang = \App\Models\Cart::where('user_id', $id_bocah)->get();
+
+        $request->validate([
+        'merchant_id' => 'required|exists:merchants,id'
+        ]);
         
         if($keranjang->count() == 0) {
             return redirect()->back()->with('error', 'Keranjang lu kosong woi!');
@@ -137,6 +141,7 @@ class CartController extends Controller
                 'reward_id' => $item->reward_id,
                 'points_spent' => $harga_minuman * $item->quantity, // Sekarang udah kaga bakal jadi 0 lagi!
                 'status' => 'success', 
+                'merchant_id' => $request->merchant_id,
             ]);
         }
 
