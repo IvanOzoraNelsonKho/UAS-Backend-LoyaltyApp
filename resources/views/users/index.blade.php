@@ -25,7 +25,7 @@
         <p style="color: green; font-weight: bold; text-align: center;">✅ {{ session('success') }}</p>
     @endif
 
-    {{-- KOTAK TABEL UTAMA --}}
+   
     <div style="border: 2px solid #031344; padding: 25px; background-color: #f9f9f9; border-radius: 16px; max-width: 1200px; margin: 0 auto; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
         <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse; border-color: black;">
             <thead>
