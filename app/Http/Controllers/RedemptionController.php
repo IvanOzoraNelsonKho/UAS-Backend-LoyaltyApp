@@ -8,15 +8,8 @@ use App\Models\Redemption;
 class RedemptionController extends Controller
 {
 
-    public function adminIndex()
-    {
-  
-        $redemptions = Redemption::with(['user', 'reward'])->latest()->get();
-        return view('admin.redemptions_dashboard', compact('redemptions'));
-    }
 
-
-    public function adminUpdateStatus(Request $request, $id)
+    public function updateStatus(Request $request, $id)
     {
         $request->validate([
             'status' => 'required|in:pending,success'
