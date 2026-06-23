@@ -23,7 +23,7 @@
             <th style="width: 120px;">Reward</th>
             <th style="width: 120px;">Outlet</th>
             <th style="width: 120px;">Status</th>
-            
+            <th style="width: 120px;">Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +34,16 @@
             <td>{{ $redemption->reward->name ?? 'Tanpa Hadiah' }}</td>
             <td>{{ $redemption->merchant->name ?? 'Tanpa Cabang' }}</td>
             <td>{{ ucfirst($redemption->status) }}</td>
+            <td>
+                <form action="{{ route('redemptions.updateStatus', $redemption->id) }}" method="POST" style="display:inline;">
+                @csrf
+                <input type="hidden" name="status" value="success">
+        
+                <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('Yakin mau ACC pesanan ini?')">
+                    Update ke Sukses
+                </button>
+                </form>
+            </td>
         </tr>
         @endforeach
     </tbody>

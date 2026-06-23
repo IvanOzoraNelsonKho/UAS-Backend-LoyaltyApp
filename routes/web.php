@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('merchants', MerchantController::class);
     Route::resource('vouchers', VoucherController::class);
     Route::resource('redemptions', RedemptionController::class)->only(['index']);
+    Route::post('/redemptions/{id}/status', [App\Http\Controllers\RedemptionController::class, 'updateStatus'])->name('redemptions.updateStatus');
 
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
     Route::get('/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
